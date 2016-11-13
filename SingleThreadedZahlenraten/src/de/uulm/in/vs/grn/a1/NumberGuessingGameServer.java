@@ -18,7 +18,7 @@ public class NumberGuessingGameServer {
 
 			boolean won = false;
 
-			// open connection
+			// open connection and auto-close at the end
 			try (ServerSocket serverSocket = new ServerSocket(PORT);
 					Socket connectionSocket = serverSocket.accept();
 					InputStream inputStream = connectionSocket.getInputStream();
