@@ -1,12 +1,9 @@
 package de.uulm.in.vs.grn.a2;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class NumberGuessingGameThreadedServer {
 	private static final int PORT = 5555;
