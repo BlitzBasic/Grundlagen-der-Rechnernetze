@@ -14,20 +14,20 @@ public class NumberGuessingGameRequestHandler implements Runnable {
 		this.connectionSocket = conSoc;
 	}
 
-	public void run(){
+	public void run() {
 
 		boolean won = false;
-		try (	Socket connectionSocket=this.connectionSocket;
+		try (Socket connectionSocket = this.connectionSocket;
 				InputStream inputStream = connectionSocket.getInputStream();
 				OutputStream outputStream = connectionSocket.getOutputStream()) {
 
 			int number = ThreadLocalRandom.current().nextInt(50);
-			
+
 			outputStream.write("Willkommen zum Zahlenraten.\r\n".getBytes());
 			outputStream.flush();
 
 			for (int i = 0; i < 6; i++) {
-				outputStream.write(("Versuch " + (i+1) +" von 6\r\nBitte gib eine Zahl ein..\r\n").getBytes());
+				outputStream.write(("Versuch " + (i + 1) + " von 6\r\nBitte gib eine Zahl ein..\r\n").getBytes());
 				outputStream.flush();
 
 				try {
@@ -45,11 +45,12 @@ public class NumberGuessingGameRequestHandler implements Runnable {
 						}
 					}
 
-					//outputStream.write(numberString.getBytes());
 					int n = Integer.parseInt(new String(numberString));
-//					outputStream.write("\r\n".getBytes());
 					String outString = "";
-					if (n == number) {
+					if (n > 50 || n < 0) {
+						outString = "Die Zahl muss zwischen 0 und 50 sein!\r\n";
+						i--;
+					} else if (n == number) {
 						outString = "Die Zahl " + n + " stimmt. Du hast gewonnen.\r\n";
 						outputStream.write(outString.getBytes());
 						won = true;
@@ -73,11 +74,10 @@ public class NumberGuessingGameRequestHandler implements Runnable {
 					iOError.printStackTrace();
 				}
 			}
-		}catch (BindException bindError) {
+		} catch (BindException bindError) {
 			System.err.println("Du nix nehmen zweimal gleiche Port! (Vielleicht läuft altes Programm noch)");
 			System.exit(1);
-		}
-		catch (IOException iOErrorCon) {
+		} catch (IOException iOErrorCon) {
 			iOErrorCon.printStackTrace();
 		}
 	}

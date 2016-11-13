@@ -15,23 +15,23 @@ public class NumberGuessingGameServer {
 	public static void main(String[] args) {
 
 		while (true) {
-			
+
 			boolean won = false;
-			
-			//open connection
+
+			// open connection
 			try (ServerSocket serverSocket = new ServerSocket(PORT);
 					Socket connectionSocket = serverSocket.accept();
 					InputStream inputStream = connectionSocket.getInputStream();
 					OutputStream outputStream = connectionSocket.getOutputStream()) {
 
 				int number = ThreadLocalRandom.current().nextInt(50);
-				
+
 				outputStream.write("Willkommen zum Zahlenraten.\r\n".getBytes());
 				outputStream.flush();
 
-				//read numbers
+				// read numbers
 				for (int i = 0; i < 6; i++) {
-					outputStream.write(("Versuch " + (i+1) +" von 6\r\nBitte gib eine Zahl ein..\r\n").getBytes());
+					outputStream.write(("Versuch " + (i + 1) + " von 6\r\nBitte gib eine Zahl ein..\r\n").getBytes());
 					outputStream.flush();
 
 					try {
@@ -51,7 +51,10 @@ public class NumberGuessingGameServer {
 
 						int n = Integer.parseInt(new String(numberString));
 						String outString = "";
-						if (n == number) {
+						if (n > 50 || n < 0) {
+							outString = "Die Zahl muss zwischen 0 und 50 sein!\r\n";
+							i--;
+						} else if (n == number) {
 							outString = "Die Zahl " + n + " stimmt. Du hast gewonnen.\r\n";
 							outputStream.write(outString.getBytes());
 							won = true;
@@ -74,11 +77,10 @@ public class NumberGuessingGameServer {
 						iOError.printStackTrace();
 					}
 				}
-			}catch (BindException bindError) {
+			} catch (BindException bindError) {
 				System.err.println("BindError! (Vielleicht läuft letzte Instanz des Programms noch)");
 				System.exit(1);
-			}
-			catch (IOException iOErrorCon) {
+			} catch (IOException iOErrorCon) {
 				iOErrorCon.printStackTrace();
 			}
 		}
