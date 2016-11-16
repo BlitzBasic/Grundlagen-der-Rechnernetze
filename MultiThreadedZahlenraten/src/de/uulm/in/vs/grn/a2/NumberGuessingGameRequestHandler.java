@@ -8,29 +8,35 @@ import java.net.Socket;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class NumberGuessingGameRequestHandler implements Runnable {
-	private Socket connectionSocket;
+	private Socket handlerConnectionSocket;
 
 	public NumberGuessingGameRequestHandler(Socket conSoc) {
-		this.connectionSocket = conSoc;
+		this.handlerConnectionSocket = conSoc;
 	}
 
 	public void run() {
 
 		boolean won = false;
-		try (Socket connectionSocket = this.connectionSocket;
+
+		// open streams and auto-close at the end
+		try (Socket connectionSocket = this.handlerConnectionSocket;
 				InputStream inputStream = connectionSocket.getInputStream();
 				OutputStream outputStream = connectionSocket.getOutputStream()) {
 
+			// generate random number
 			int number = ThreadLocalRandom.current().nextInt(50);
 
+			// greet the user
 			outputStream.write("Willkommen zum Zahlenraten.\r\n".getBytes());
 			outputStream.flush();
 
+			// six tries
 			for (int i = 0; i < 6; i++) {
 				outputStream.write(("Versuch " + (i + 1) + " von 6\r\nBitte gib eine Zahl ein..\r\n").getBytes());
 				outputStream.flush();
 
 				try {
+					// read number
 					int readByte;
 					String numberString = "";
 					while ((readByte = inputStream.read()) != -1) {
@@ -45,6 +51,7 @@ public class NumberGuessingGameRequestHandler implements Runnable {
 						}
 					}
 
+					// give response to input
 					int n = Integer.parseInt(new String(numberString));
 					String outString = "";
 					if (n > 50 || n < 0) {
@@ -66,10 +73,14 @@ public class NumberGuessingGameRequestHandler implements Runnable {
 						outputStream.write("Du hast verloren!\r\n".getBytes());
 					}
 					outputStream.flush();
+
+					// catch non numeric inputs
 				} catch (NumberFormatException numFormatExc) {
 					System.out.println("Du solltest eine ganze Zahl zwischen 0 und 50 eingeben.\r\n");
 					outputStream.write("Du solltest eine ganze Zahl zwischen 0 und 50 eingeben.\r\n".getBytes());
 					i--;
+
+					// catch exceptions
 				} catch (IOException iOError) {
 					iOError.printStackTrace();
 				}

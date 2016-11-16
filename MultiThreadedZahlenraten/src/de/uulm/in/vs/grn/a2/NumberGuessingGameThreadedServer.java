@@ -3,7 +3,6 @@ package de.uulm.in.vs.grn.a2;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,12 +15,16 @@ public class NumberGuessingGameThreadedServer {
 		
 		try (ServerSocket serverSocket = new ServerSocket(PORT)) {
 
+			//fixed thread pool for a maximum of NUMBER_OF_THREADS parallel games
 			ExecutorService pool = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
 			try {
+				//always start a new game when the old one ends
 				while (true) {
-					pool.execute(new Thread(new NumberGuessingGameRequestHandler(serverSocket.accept())));
+					pool.execute(new Thread(new NumberGuessingGameRequestHandler(serverSocket.accept())));	//wait for a connecting host, start new thread for each game in a thread pool
 				}
+				
+			//catch exceptions
 			} catch (BindException bindError) {
 				System.err.println("BindError! (Vielleicht läuft letzte Instanz des Programms noch)");
 				System.exit(1);
@@ -29,8 +32,10 @@ public class NumberGuessingGameThreadedServer {
 				iOErrorCon.printStackTrace();
 			}
 
+		//exit the program on serious exceptions
 		} catch (Exception e) {
-			System.err.println("Es gab einen Fehler");
+			System.err.println("Es gab einen unbekannten Fehler");
+			e.printStackTrace();
 			System.exit(-1);
 		}
 

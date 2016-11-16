@@ -14,29 +14,34 @@ public class NumberGuessingGameServer {
 
 	public static void main(String[] args) {
 
+		//always start a new game when the old one ends
 		while (true) {
 
 			boolean won = false;
 
 			// open connection and auto-close at the end
 			try (ServerSocket serverSocket = new ServerSocket(PORT);
-					Socket connectionSocket = serverSocket.accept();
+					Socket connectionSocket = serverSocket.accept();	//wait for a connecting host
 					InputStream inputStream = connectionSocket.getInputStream();
 					OutputStream outputStream = connectionSocket.getOutputStream()) {
 
+				// generate random number
 				int number = ThreadLocalRandom.current().nextInt(50);
 
+				// greet the user
 				outputStream.write("Willkommen zum Zahlenraten.\r\n".getBytes());
 				outputStream.flush();
 
-				// read numbers
+				// six tries
 				for (int i = 0; i < 6; i++) {
 					outputStream.write(("Versuch " + (i + 1) + " von 6\r\nBitte gib eine Zahl ein..\r\n").getBytes());
 					outputStream.flush();
 
 					try {
+						// read number
 						int readByte;
 						String numberString = "";
+
 						while ((readByte = inputStream.read()) != -1) {
 							if ((char) readByte == '\r') {
 								inputStream.read(); // throw away \n
@@ -51,6 +56,8 @@ public class NumberGuessingGameServer {
 
 						int n = Integer.parseInt(new String(numberString));
 						String outString = "";
+
+						// give response to input
 						if (n > 50 || n < 0) {
 							outString = "Die Zahl muss zwischen 0 und 50 sein!\r\n";
 							i--;
@@ -70,9 +77,13 @@ public class NumberGuessingGameServer {
 							outputStream.write("Du hast verloren!\r\n".getBytes());
 						}
 						outputStream.flush();
+
+						// catch non numeric inputs
 					} catch (NumberFormatException numFormatExc) {
 						outputStream.write("Du solltest eine ganze Zahl zwischen 0 und 50 eingeben.\r\n".getBytes());
 						i--;
+
+						// catch exceptions
 					} catch (IOException iOError) {
 						iOError.printStackTrace();
 					}
