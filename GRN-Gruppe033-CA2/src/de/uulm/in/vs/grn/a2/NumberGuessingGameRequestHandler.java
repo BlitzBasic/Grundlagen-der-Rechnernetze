@@ -40,8 +40,10 @@ public class NumberGuessingGameRequestHandler implements Runnable {
 					int readByte;
 					String numberString = "";
 					while ((readByte = inputStream.read()) != -1) {
-						if ((char) readByte == '\r') {
+						if ((char) readByte == '\r') {	//for windows systems
 							inputStream.read(); // throw away \n
+							break;
+						} else if((char) readByte == '\n') {	// for unix systems
 							break;
 						} else if ((char) readByte == '\b') {
 							if (numberString.length() != 0)
