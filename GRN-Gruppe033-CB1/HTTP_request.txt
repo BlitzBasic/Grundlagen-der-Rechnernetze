@@ -1,0 +1,3 @@
+﻿GET /index.html HTTP/1.1
+Host: www.uni-ulm.de
+
