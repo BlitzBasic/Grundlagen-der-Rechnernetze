@@ -10,7 +10,7 @@ public class URLFetcher {
 	public static void main(String[] args) {
 
 		
-		if (args[0] == null) {
+		if (args.length == 0) {
 			System.err.println("Please insert an URL!");
 			System.exit(-1);
 		}
@@ -38,14 +38,15 @@ public class URLFetcher {
 						while (!reader.readLine().equals("")); // throw away header
 						while (reader.ready())	fileWriter.write(reader.readLine() + "\r\n");
 						fileWriter.flush();
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
 
+				}else{
+					System.err.println("Could not complete request: "+statusCode);
+					throw new MalformedURLException(statusCode);
 				}
 			}
 		} catch (MalformedURLException e) {
-			System.err.println("The URL is not well-formatted");
+			System.err.println("You entered an invalid URL");
 		} catch (IOException e1) {
 			System.err.println("Couldn't write file");
 		}
