@@ -1,0 +1,457 @@
+FA1
+Netzwerkfähigkeit
+Die Software soll als verteilte Anwendung implementiert sein. Das heißt, dass über ein Netzwerk verteilte Komponenten miteinander kommunizieren. Es wird eine Server-Client Architektur gewählt. Die Netzwerkkommunikation findet über JSON statt und entspricht den Bestimmungen des Interfacekomitees.
+Es wird ermöglicht, das mehrere Spieler an verschiedenen Geräten miteinander über einen zentralen Server spielen können.
+-
+alle
+++
+
+FA2
+Server(-prototyp)
+Der Server dient als zentrale Komponente des Spiels. Er liest das Spielfeld ein, verwaltet den Spielzustand, kontrolliert den Spielablauf und kommuniziert mit den Clients. Dabei empfängt der Server Nachrichten von den Clients und sendet den aktuellen Spielzustand an die Clients. Der Server wird nur als Prototyp entwickelt und gehört nicht zum Lieferumfang.
+Es wird eine zentrale Komponente benötigt, die den kompletten Spielablauf und die Kommunikation verwaltet.
+FA1
+alle
+++
+
+FA3
+Teilnehmer-Client
+Der Teilnehmer ist die Clientkomponente, die das Spielgeschehen beeinflussen kann. Teilnehmer empfangen vom Server Informationen über den aktuellen Spielzustand und senden ihm ihre Auswahl an Programmbefehlen. Ein Teilnehmer-Client wird entweder von einem Mensch oder einer KI gesteuert.
+Das Steuern des Spiels wird ermöglicht.
+FA1, FA2
+Spieler, KI
+++
+
+FA4
+Spieler
+Das Spiel ist für 2 bis 8 Spieler ausgelegt. Die Spieler sind entweder ein Benutzer oder eine KI und haben  die Möglichkeit, über einen Client am Spiel teilzunehmen.
+Das Spiel benötigt Spieler.
+-
+Spieler
+++
+
+FA5
+Beobachter-Client
+Es soll Beobachterclients geben, die das Spielgeschehen graphisch darstellen, aber keinen Einfluss auf das Spielgeschehen haben. Diese müssen sich wie Teilnehmer mit dem Server verbinden können. Er muss das Spielgeschehen und die Konfiguration anzeigen. Am Ende des Spiels soll er den Spielausgang anzeigen.
+Es soll möglich sein, dem Spiel auch zu folgen, wenn man nicht mitspielt.
+-
+Beobachter
+++
+
+FA6
+Clients
+Die Softwarekomponenten, die sich mit dem Server verbinden, heißen Clients. Dazu zählen Beobachter, Mensch-Teilnehmer und KI-Teilnehmer. Sie müssen Nachrichten mit dem Server austauschen (siehe FA2), um den Spielverlauf zu ermöglichen. Außerdem müssen sie vom Server vorgegebene Timings einhalten. Alle Clients sollen dabei die gleichen Schnittstellen verwenden.
+Ein muss Komponenten geben, die sich mit dem Server verbinden.
+-
+Beobachter, Spieler, KI
+++
+
+FA7
+KI
+Es soll eine KI geben, deren Client über die Kommandozeile aufgerufen werden kann. Parameter sind dabei IP-Adresse des Servers, Port, und Anzeigename der KI. Die KI soll fähig sein, das Spiel unter Einhaltung der Spielregeln zu spielen und in einem vom Server vorgegebenen Zeitlimit agieren.
+Es soll nichtmenschliche Spieler geben.
+-
+KI
+++
+
+FA8
+Leveleditor
+Der Leveleditor ermöglicht das Erstellen von Spielfeldern und die Konfigurationen für das Spiel. Diese kann er in einem vom Interfacekomitee bestimmten Format abspeichern. Das Laden und modifizieren von bereits erstellten Konfigurationen soll möglich sein, ebenso die Bedienung über eine grafische Oberfläche.
+Das Spiel benötigt ein Spielfeld.
+-
+-
+++
+
+FA9
+Anzahl Spieler
+Je nach Vorgabe des Spielleiters am Server müssen zwischen 2 und 8 Teilnehmer-Clients sich mit dem Server verbinden können. 
+Einhaltung der vorgegebenen Spielerzahl.
+-
+Spieler
++
+
+FA10
+Roboter
+Roboter stellen die Spielfiguren dar. Diese sollen von den Clients auf dem Spielfeld dargestellt werden. Verschiedene Spielfiguren sind klar unterscheidbar (z.B. durch ihre Farbe).
+Die Spielfiguren dienen der Anzeige der aktuellen Position.
+-
+Spieler, Beobachter
+++
+
+FA11
+Spielziel
+Das Ziel des Spiels ist es, dass ein Roboter alle Checkpoints in der richtigen Reihenfolge abläuft und als erster am letzten Checkpoint ankommt. Der Spieler, der diesen Roboter steuert, hat gewonnen. Bei erreichen des Spielziels soll die Spielrunde beendet werden und der Gewinner angezeigt werden. Bei Abbruch des Spiels oder Ausscheiden alles Spieler ist der Ausgang "Unendschieden" möglich.
+Das Spiel muss terminieren und ein Gewinner soll ermittelt werden.
+-
+Spieler, KI, Server
+++
+
+FA12
+Reines KI-Spiel
+Es ist möglich, ein Spiel zu starten, dass nur KI-Teilnehmer enthält. Dieses Spiel soll wie ein normales Spiel ablaufen und es soll ein Gewinner festgestellt werden.
+Vorgabe für das Turnier.
+-
+KI, Server
+0
+﻿F13
+Spiellogik
+Der Server muss den kompletten Ablauf das Spiels anhand der ihm von den Clients übermittelten Daten simulieren und die Clients am Ende jeder Runde über den neuen Zustand des Spiels informieren.
+Kritischer Bestandteil des Spielprinzips
+F2
+Server
+-
+
+F14
+Spielregeln
+Der Server muss die Einhaltung der durch das Lastenheft festgelegten Spielregeln überwachen und bei Missachtung dieser durch die Clients die dem Übertritt entsprechenden Strafe verhängen. 
+Um die Einhaltung der Spielregeln zu gewährleisten.
+F2
+Server
+-
+
+F15
+Level-Beschreibung-Dateien
+Level-Beschreibung-Datein müssen die Anzahl der Spieler (von/bis), die Dimensionen des Spielfelds in Rastereinheiten, die Position von Mauern auf dem Spielfeld, die Anzahl, Reihenfolge und Position der Checkpoints sowie die maximale Zeit, die ein Spieler für die Programmierung seiner Roboter zur Verfügung hat, enthalten. Ihr genauer Aufbau wird durch das Interfacekomitee festgelegt und steht momentan noch nicht fest.
+Um das Speichern und Laden von Spielfeldern zu ermöglichen
+-
+Server
+-
+
+F16
+Server muss Dateien einlesen
+Der Server muss die Fähigkeit haben, Level-Beschreibungs-Dateien einzulesen und aus ihnen eine vollständige Spielfeld-Datenstruktur in RAM zu generieren.
+Um eine Möglichkeit zu haben, die Spielfeld-Datenstruktur aufzubauen
+F2, F15, F22
+Server
+-
+
+F17
+Spiel initialisieren
+Der Server muss die Möglichkeit bereitstellen, eine Spielfeld-Datenstruktur im RAM zu generieren.
+Kritischer Bestandteil des Spielprinzips
+F2, F16
+Server
+-
+
+F18
+Interfaces
+Sowohl der Server als auch die Clients müssen mit den durch das Interfacekomitee festgelegten Interfaces umgehen können.
+Um die Kommunikation von Servern und Clients zu ermöglichen
+F2, F6
+Server, Client
+-
+
+F19
+Pflichtenheft
+Das Pflichtenheft muss in konkreter Form beschreiben, wie der Auftragnehmer die im Lastenheft beschriebenen Anforderungen zu lösen gedenkt.
+Um sicherzugehen, dass der Auftragnehmer das Endprodukt im Sinne des Auftraggebers gestaltet.
+-
+-
+-
+
+F20
+Checkpoints
+Felder müssen bis zu einen Checkpoint enthalten können. Jeder Checkpoint hat eine Nummer zwischen 1 und 2147483647. Es muss sichergestellt werden, dass jedes Spielfeld mindestens 2 Checkpoints enthält. Es darf keine zwei Checkpoints mit der gleichen Nummer geben. Es muss sichergestellt werden, dass in jedem Spielfeld genau ein Checkpoint mit jeder Nummer zwischen 1 und der Nummer des Checkpoints mit der höchsten Zahl existiert. Die Roboter können einen Checkpoint "erreichen", indem sie sich auf oder über das Feld dieses Checkpoints bewegen, nachdem sie alle vorherigen Checkpoints "erreicht" haben.
+Um die Teilnehmer zu zwingen eine gewissen Route zu nehmen
+F24
+Server, Client, KI
+-
+
+F21
+Zielfeld
+Das Zielfeld ist der Checkpoint mit der höchsten Nummer. Derjenige Roboter, der dieses Feld zuerst erreicht, gewinnt das Spiel.
+Um ein Spielziel bereitzustellen
+F20
+Server, Client, KI
+-
+
+F22
+Spielfeld
+Das Spielfeld besteht aus n*m Feldern, die zu einem Rechteck angeordnet sind. Hierbei sind sowohl n als auch m eine ganze Zahl zwischen 1 und 2147483647 ist. Das Spielfeld enthält eine beliebige Anzahl von Wänden und Checkpoints. Es enthält außerdem genau ein Startfeld, ein Zielfeld, sowie zwischen 2 und 8 Roboter.
+Kritischer Bestandteil des Spielprinzips
+F10, F20, F21, F24, F25, F26
+Server, Client, KI
+-
+
+F23
+Bewegung der Roboter
+Die Roboter haben die Möglichkeit durch Programmbefehle das Feld, auf dem sie sich befinden, zu wechseln.
+Um es den Robotern zu erlauben das Zielfeld zu erreichen
+F10, F27
+Server, Client, KI
+-
+
+F24
+Felder
+Eine einzelne Position im Raster des Spielfeldes. Jedes Feld kann genau einen Checkpoint und genau einen Roboter aufnehmen.
+Kritischer Bestandteil des Spielprinzips
+-
+Server, Client, KI
+-FA25
+Wand / Mauer
+Objekt, welches sich zwischen zwei Feldern befindet und verhidert, dass Roboter in diese Richtung das Feld überqueren.
+Dient dazu das Spiel strategischer zu gestalten.
+-
+-
+++
+
+FA26
+Startfeld
+Das Startfeld befindet sich an der Stelle des ersten Checkpoints, dieser wird als erster Einsetzungspunkt verwendet auf dem jeder über seine Ausrichtung entscheiden darf.
+Dient dazu dem Spiel einen Anfangszustand zu geben.
+-
+Karteneditor: Entscheidet wo sich das Startfeld befindet.
+++
+
+FA27
+Programmbefehle
+Die Programmbefehle sind ein Spielelement, welches dem Spieler erlaubt seinen Roboter in die ihm gewünschte Richtung zu bewegen. Zu Rundenstart erhält jeder Spieler 9 Programmbefehle von denen er 5 auswählen darf.
+Dient dazu das Spielziel zu erreichen.
+-
+Spieler: Entscheidet welche Programmbefehle er benutzt. Server: Verteilt Programmbefehle an Spieler und KI 
+++
+
+FA28
+Ausrichtung der Roboter
+Die Ausrichtung der Roboter entscheidet in welche Richtung Bewegungsbefehle sie bewegen und die Ausrichtung der Roboter kann durch Drehbefehle beeinflusst werden. Dies wird visuell im Spiel dargestellt.
+Dient dazu dem Spieler visuell dar zu stellen in welche Richtung sich sein Roboter durch Bewegungsbefehle bewegt.
+FA29, FA30
+Client: Stellt die Ausrichtung visuell dar.
+++
+
+FA29
+Bewegungsbefehle
+Diese Befehle bewegen den Roboter vor oder zurück, zu ihnen gehören die Befehle: -1 Feld vorwärts. -2 Felder vorwärts. -3 Felder vorwärts. -1 Feld rückwärts.
+Dient dazu dem Spieler das bewegen seines Roboters zu ermöglichen.
+FA28, FA27
+-
+++
+
+FA30
+Drehbefehle
+Diese Befehle ändern die Ausrichtung des Roboters, indem sie ihn in eine bestimmte Richtung drehen zu ihnen gehören die Befehle: -Vierteldrehung gegen den Uhrzeigersinn. -Vierteldrehung mit dem Uhrzeigersinn. -Halbe Drehung (180°).
+Dient dazu dem Spieler zu ermöglichen die Ausrichtung seines Roboters zu ändern.
+FA28, FA27
+-
+++
+
+FA31
+Befehlsprioritaet
+Die Befehlsprioritaet ist eine festgelegte Zahl die bestimmt, welcher Spieler in diesem Programmablauf den ersten Zug machen darf, diese Werte werden jedes mal nachdem jeder einen Programmbefehl abgearbeitet hat neu überprüft.
+Dient der Festlegung der Zugreihenfolge für die Programmbefehle
+FA30, FA29, FA27
+Server: Auswerung der Prioritaeten und Festlegung der Zugreihenfolge.
+++
+
+FA32
+Rundenablauf
+In jeder Runde erhält jeder Teilnehmer zuerst seine Programmbefehle, wird dann vom Server aufgefordert diese in einer festgelegten Zeitspanne zum programmieren der Roboter zu benutzen. Danach findet der Programmablauf statt und anschließend wird die Runde beendet.
+Dient der einheitlichen Strukturierung des Spielablaufs.
+-
+Server: Auffordern der Spieler in einer festgelegten Zeitspanne die Roboter zu programmieren. Spieler: Empfangen der Programmbefehle.
+++
+
+FA33
+Programmbefehle erhalten
+Am Anfang jeder Runde werden dem Spieler 9 Programmbefehle zugeteilt die er in der Runde verwenden kann, diese sind für die anderen Spieler nicht sichtbar. Wobei er nur 5 für die eigentliche Programmierung benutzt. Folgende Regeln zur Verteilung sind zu beachten: -Kein Spieler erhält nur Drehbefehle. -Kein Spieler erhält einen Befehl mehr als drei Mal. -Jeder Befehel besitzt eine eindeutige Prioritaet.
+Dient der Definiton der Regeln für das Erhalten von Programmbefehlen.
+FA29, FA30
+Server: Teilt die Programmbefehle den Regeln nach jedem Spieler zu.
+++
+
+FA34
+Prioritaeten von Programmbefehlen
+Die Befehle haben eindeutige aber zufällige Prioritaeten, wobei die folgende Reihenfolge der Ausführung konstant ist: 3 Felder vorwärts -> 2 Felder vorwärts -> 1 Feld vorwärts -> 1 Feld rückwärts -> Vierteldrehung gegen den Uhrzeigersinn -> Vierteldrehung mit dem Uhrzeigersinn -> Halbe Drehung (180°). wobei die einzelnen Programmbefehle in den Programmgruppen eigene Prioritaeten erhalten.
+Dient der eindeutigen Festlegung der Reihenfolge in der die Züge durchgeführt werden.
+FA30, FA29, FA27
+Server: Richtige Festlegung des Zugsblaufs
+++
+
+FA35
+Programmierung der Roboter
+Die Programmierung der Roboter wird von jedem Spieler einzeln vorgenommen, wobei nur jede Spieler seine eigene Programmierung kennt. Der Spieler benutzt dafür 5 seiner 9 zugeteilten Programmbefehle. Die Programmierung kann bis zum Ende der Runde nicht mehr verändert werden.
+Dient der Bewegung der Roboter durch Programmbefehle.
+FA30, FA29, FA27
+Spieler: Programmierung seines Roboters.
+++
+
+FA36 
+Programmablauf
+Der Programmablauf wird durch die Befehlsprioritaeten bestimmt, wobei diese Reihenfolge nur für den ersten Befehl jedes Spielers gilt und in jedem weiteren neu bestimmt wird durch die Befehlsprioritaeten, während dieser Phase haben die Teilnehmer keinen Einfluss mehr auf die Roboter oder die Programmierung der Roboter.
+Dient der Bestimmung der richtigen Ausführungsreihenfolge.
+FA30, FA29, FA27, FA34, FA31
+Server: Bestimmt die Ausführungsreihenfolge
+++FA48
+Visualisierungszeitraum
+Der Zeitraum in dem die Bewegungen eines Roboters visualisiert wird, darf nicht länger als 5 Sekunden sein.
+Um ein flüssiges Spiel zu garantieren.
+-
+Client
+-
+
+FA49
+Benutzeroberfaeche
+-
+-
+-
+-
+-
+
+FA50
+Pausieren / Fortsetzen
+Der Spielleiter hat die Möglichkeit das Spiel auf dem Server zu pausieren und dann wieder fortzusetzen. Die Clients werden dann über den Zustand informiert.
+Um dem Spielleiter mehr Kontrolle zu geben.
+-
+Spielleiter , Server , Client
+-
+
+FA51
+Abbrechen
+Der Spielleiter kann das Spiel abbrechen, die Clients werden dann vom Server disconnected und zeigen dem Benutzer ein Unentschieden an.
+Damit der Spielleiter Spiele vorzeitig beenden kann.
+Spielleiter , Server , Client
+-
+-
+
+FA52
+Anmeldung des Clients bei der Engine
+Der Client kann sich bei dem Server anmelden, um zu signalisiern das der Client spielen möchte.
+Auf diesem Weg kann sich der Server einen Überblick schaffen über alle spielwilligen Clients.
+-
+Server , Client
+-
+
+FA53
+Einlesen der Level-Beschreibungs-Datei
+Der Server kann die Level-Beschreibungs-Datei einlesen und diese dann benutzen um darauf die Roboter zu bewegen. Außerden sendet der Server sie an die Clients, damit diese die Welt darstellen können.
+Um dem Server die Spielwelt leicht Übergeben zu können.
+-
+Server
+-
+
+FA54
+Auswahl der Spieler
+Der Spielleiter kann aus alle angemeldeten Clients sich mehere Clients raussuchen und diese spielen lassen.
+Um dem Spielleiter kontrollierte Partien zu erlauben.
+-
+Spielleiter , Server , Client
+-
+
+FA55
+[OPTIONAL] Mehrere Spiele gleichzeitig
+Der Server soll es ermögligen mehrere Spiele gleichzeitig zu hosten.
+Um in Tunieren weniger Server zu benötigen.
+-
+Server
+-
+
+FA56
+[OPTIONAL] Tuniermodus
+Der Server soll auf den Wunsch des Spielleiters ein Tunier in KO-modus zu hosten und dann alle Spielen mit den entsprechenden Clients durzuführen.
+Um einfache Tunieren sehr schnell und einfach durführbar zu machen.
+-
+Server , Spielleiter , Client
+-
+
+FA57
+Highscore - Tabelle
+Es soll auf dem Server für alle Clients einsehbare Highscoretabelle geben, in der gespeichert ist welcher Client wie viele Spiele gewonnen hat.
+Um der Tuniermodus geeignet zu unterstützen.
+-
+Server
+-
+
+FA58
+Tunierplanung
+Der Spielleiter soll Tuniere planen können, also eine dann automatische abgefahrene Reihe von Spielen aufsetzten können.
+Um es leichter zu machen Tunieren zu erstellen.
+-
+Spielleiter , Server
+-
+F59
+Graphikdefinition
+-
+-
+-
+-
+-
+
+F60
+Robotervisualisierung
+Die Robotor m{\"u}ssen auf dem Spielfeld als statische Objekte dargestellt werden. Wenn die Roboter sich bewegen muss diese Bewegung auch visuell veranschaulicht werden.
+Zum einen um das Spiel fuer Menschen spielbar zu machen. Zum anderen um das Spiel anschaulicher zu machen.
+F10, F23
+Client
+-
+
+F61
+Zeitanzeige f{\"u}r den Nutzer
+Dem Nutzer muss bei zeitlich Beschraenkten Aktionen, wie dem Programmieren der Roboter die noch vorhandene Zeit angezeigt werden.
+Um das Spiel benutzerfreundlich zu gestalten.
+F35
+Spieler, Client
+-
+
+F62
+Bewegungsanimation f{\"u}r Beobachter
+Nach jeder Runde m{\"u}ssen dem Beobachter / den Beobachtern die Zuege der Roboter graphisch und mit Animationen dargestellt werden.
+Um den Beobachtern das Beobachten zu ermoeglichen.
+F5, F10, F23
+Client
+-
+
+F63
+[OPTIONAL] Visuelle Unterst{\"u}tzung
+Bei der Programmierung der Robotern muss dem Spieler eine visuelle Unterst{\"u}tzung geleistet werden, was beim Auswaehlen eines Programmbefehles mit dem Roboter passieren wird. Z.B. beim Auswaehlen der Karte ,,3 Felder vor'' wird dem Benutzer auf dem Spielfeld ein Pfeil vor seinem Roboter angezeigt der drei Felder lang ist.
+Um dem Benutzer die verschiedenen Programmbefehle besser zu erkl{\"a}ren
+F22, F23, F24, F29, F35
+Client, Spieler
+-
+
+F64
+Fensteraufloesung
+Das Spiel muss Fullscreen spielbar sein ab einer Aufl{\"o}sung von 1366x786. Eine Full-HD Aufl{\"o}sung (oder besser) ist jedoch erw{\"u}nscht.
+Um das Spielfeld in ausreichender Gr{\"o}sse darstellen zu k{\"o}nnen.
+-
+Client
+-
+
+F65
+CLI f{\"u}r KI
+Die K{\"u}nstliche Intelligenz (KI) muss  koomplett {\"u}ber die Kommandozeile steuerbar sein, daf{\"u}r muss eine Command Line Interface (CLI) zur Verf{\"u}gung gestellt werden. Als Parameter m{\"u}ssen die Schwierigkeit, der Name und die Farbe der KI {\"u}bergeben werden k{\"o}nnen.
+Um die Steuerung der KI zu erm{\"o}glichen
+F7, F12
+KI
+-
+
+F66
+Spielername
+Jeder Spieler muss einen Namen haben k{\"o}nnen, welcher jeder Spieler individuell setzen kann.
+Um dem Benutzer eine M{\"o}glichkeit zur Personalisierung zu geben und die einzelnen Spieler auseinanderhalten zu k{\"o}nnen.
+-
+Spieler, Client
+-
+
+F67
+KI Schwierigkeiten
+Die KI muss verschiedene Schwierigkeiten haben die man beim Starten der KI w{\"a}hlen kann.
+Um menschlichen Spielern verschiedene Schwierigkeitsgrade zur Verf{\"u}gung zu stellen.
+F65, F7, F12
+KI
+-
+
+F68
+Spielerfarben
+Jeder Spieler muss eine Farbe haben k{\"o}nnen, welche jeder Spieler individuell setzen kann.
+Um dem Benutzer eine M{\"o}glichkeit zur Personalisierung zu geben und die einzelnen Spieler auseinanderhalten zu k{\"o}nnen.
+-
+Spieler, Client
+-
+
+F69
+Randomizer f{\"u}r Leveleditor
+Der Level-Editor muss eine M{\"o}glichkeit haben, Karten automatisch durch einen Zufallsalgorithmus zu erstellen.
+Um auch unkreativen Benutzern verschieden Karten erstellen zu lassen
+F08
+Leveleditor
+-
