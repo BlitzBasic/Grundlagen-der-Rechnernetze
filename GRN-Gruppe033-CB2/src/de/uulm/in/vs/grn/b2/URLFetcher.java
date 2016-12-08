@@ -42,23 +42,19 @@ public class URLFetcher {
 					try (FileOutputStream fileWriter = (new FileOutputStream(new File(filename)))){
 						
 						int readbyte = in.read();
-						long time1 = System.currentTimeMillis();
 						while (true){
 							
-							if(readbyte == -1) throw new IllegalStateException();	//TODO: Change Exception
+							if(readbyte == -1) throw new IllegalStateException();	// if an error occurs the problem has to be in an illegal state, so the exception seems fitting
 							if((char)readbyte == '\r'){
 								if((char)in.read() == '\n' && (char)in.read() == '\r' && (char)in.read() == '\n') break;
 							}
 							readbyte = in.read();
 						}
-						long time2 = System.currentTimeMillis();
 						
-						byte[] buf = new byte[100000000];
+						byte[] buf = new byte[100000];
 						int bytesRead = 0;
 						while ((bytesRead=in.read(buf))!=-1)	fileWriter.write(buf, 0, bytesRead);
 						fileWriter.flush();
-						long time3 = System.currentTimeMillis();
-						System.out.println((time2-time1) + " " + (time3-time2));
 					}
 					
 					

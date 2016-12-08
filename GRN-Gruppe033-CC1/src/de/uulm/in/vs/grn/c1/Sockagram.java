@@ -10,7 +10,7 @@ public class Sockagram {
 	public static void main(String[] args) {
 
 		if (args.length < 2) {
-			System.err.println("Please insert a filter number and the path of an image!");
+			System.err.println("Please insert a filter number and the name of an image!");
 			System.exit(-1);
 
 		}
