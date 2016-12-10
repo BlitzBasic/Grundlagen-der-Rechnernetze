@@ -128,6 +128,9 @@ public class VoidRunnerBoard extends JPanel implements ActionListener {
     }
 
     public void handleUpdate(UUID id, boolean alive, int x, int y) {
+//    	System.out.println(uuid.toString());
+//    	System.out.println(this.uuid);
+//    	System.out.println(playerMap.containsKey(id));
         if (playerMap.containsKey(id)) {
             if (alive) {
                 // update player
