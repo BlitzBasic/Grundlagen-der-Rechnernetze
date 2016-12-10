@@ -97,12 +97,19 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 			System.out.println(bitmapInt);
 			String bitmap=Integer.toBinaryString(bitmapInt);
 			System.out.println(bitmap);
+			int leadingZeros = Integer.numberOfLeadingZeros(bitmapInt);
+			
 			for(int k=0; k<32; k++){
 				if(counterX>=boardWidth && counterY>=boardHeight){
 					break;
 				}
+				if(k<=leadingZeros){
+					board[counterY][counterX] = true;
+				}else{
+					
 				
-				board[counterY][counterX] = bitmap.charAt(k) == '1' ? true : false;
+				board[counterY][counterX] = bitmap.charAt(k-leadingZeros) == '1' ? true : false;
+				}
 				counterX = (counterX + 1)%boardWidth;
 				if(counterX==0) counterY++;
 			}
@@ -114,14 +121,14 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 		}
 		
 		
-		voidRunnerBoard.setInitialPosition(5, 5);
-		updateHandler.start();
-		return new boolean[32][32];
-
-
-//		voidRunnerBoard.setInitialPosition(posX, posY);
+//		voidRunnerBoard.setInitialPosition(5, 5);
 //		updateHandler.start();
-//		return board;
+//		return new boolean[32][32];
+
+
+		voidRunnerBoard.setInitialPosition(posX, posY);
+		updateHandler.start();
+		return board;
 		
 		// TODO send an initial packet to the server and receive the initial
 		// player position and board dimensions
