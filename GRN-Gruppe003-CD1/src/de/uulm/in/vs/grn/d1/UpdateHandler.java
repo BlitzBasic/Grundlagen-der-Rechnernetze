@@ -46,7 +46,7 @@ public class UpdateHandler extends Thread {
 			int x=buffer.getInt();
 			System.out.println(buffer.position());
 			int y=buffer.getInt();
-			boolean alive = !(x < 0 || y < 0 || x >= voidRunnerBoard.boardHeight || y>= voidRunnerBoard.boardWidth);
+			boolean alive = !(x < 0 || y < 0 || x >= voidRunnerBoard.boardHeight || y>= voidRunnerBoard.boardWidth || voidRunnerBoard.fieldDestroyed(x, y));
 			System.out.println("posX: " + x + " posY: " + y + " alive: " + alive);
 			voidRunnerBoard.handleUpdate(uuid, alive, x, y);
 		}

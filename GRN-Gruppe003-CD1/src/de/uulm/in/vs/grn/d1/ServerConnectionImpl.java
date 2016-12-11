@@ -123,7 +123,8 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 		}
 
 		for (boolean[] bs : board) {
-			System.out.println(Arrays.toString(bs));
+			for(boolean b:bs) System.out.print(b?1:0);
+			System.out.println();
 		}
 
 		voidRunnerBoard.setInitialPosition(posX, posY);
