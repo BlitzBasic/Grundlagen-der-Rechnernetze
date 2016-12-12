@@ -43,22 +43,6 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		byte[] payload = outBuffer.array();
 
-		System.out.println(Arrays.toString(payload));
-		// Solution is in progress.. Don't touch this shit
-		// create bytearray --> maybe --> don't know what I do --> shit -->
-		// Peter (or maybe I) will fix it #noCommentAboutWhatThisArrayMeans
-		// #haveFunPeter
-		// #veryNetworkMuchWowSuchUDP
-		// payload = new byte[] { (byte) (mostSig >>> 56), (byte) (mostSig >>>
-		// 48), (byte) (mostSig >>> 40),
-		// (byte) (leastSig >>> 32), (byte) (mostSig >>> 24), (byte) (mostSig
-		// >>> 16), (byte) (mostSig >>> 8),
-		// (byte) mostSig, (byte) (leastSig >>> 56), (byte) (leastSig >>> 48),
-		// (byte) (leastSig >>> 40),
-		// (byte) (leastSig >>> 32), (byte) (leastSig >>> 24), (byte) (leastSig
-		// >>> 16), (byte) (leastSig >>> 8),
-		// (byte) leastSig, -1, -1, -1, -1, -1, -1, -1, -1 };
-
 		DatagramPacket outPacket = new DatagramPacket(payload, payload.length, serverEndpoint); // TODO:
 																								// Port??
 
@@ -78,7 +62,6 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 		ByteBuffer buffer = ByteBuffer.wrap(receiveData);
 
 		System.out.println("Initiation:");
-		// buffer.order(ByteOrder.LITTLE_ENDIAN);
 
 		int posX = buffer.getInt();
 		int posY = buffer.getInt();
@@ -86,7 +69,6 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 		int boardHeight = buffer.getInt();
 
 		System.out.println("posX: " + posX + " posY: " + posY + " Width: " + boardWidth + " Height: " + boardHeight);
-//		System.out.println(buffer.position());
 
 		boolean[][] board = new boolean[boardWidth][boardHeight];
 		int counterX = 0;
@@ -94,9 +76,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		for (int r = 0; r < (boardWidth * boardHeight) / 32; r++) {
 			int bitmapInt = buffer.getInt();
-//			System.out.println(bitmapInt);
 			String bitmap = Integer.toBinaryString(bitmapInt);
-//			System.out.println(bitmap);
 
 			
 			int leadingZeros = 32-bitmap.length();
@@ -122,6 +102,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		}
 
+		System.out.println();
 		for (boolean[] bs : board) {
 			for(boolean b:bs) System.out.print(b?1:0);
 			System.out.println();
@@ -154,11 +135,8 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		byte[] payload = outBuffer.array();
 
-		System.out.println(uuid.toString());
-
 		DatagramPacket outPacket = new DatagramPacket(payload, payload.length, serverEndpoint); // TODO:
 																								// Port??
-
 		try {
 			clientSocket.send(outPacket);
 

@@ -37,17 +37,11 @@ public class UpdateHandler extends Thread {
 		ByteBuffer buffer = ByteBuffer.wrap(receiveData);
     	
 		int nrOfUpdates = buffer.getInt();
-		System.out.println(nrOfUpdates);
 		for(int i=0; i<nrOfUpdates; i++){
 			UUID uuid = new UUID(buffer.getLong(), buffer.getLong());
-			System.out.println(uuid.toString());
-			buffer.order(ByteOrder.LITTLE_ENDIAN);
-			System.out.println(buffer.position());
+			boolean alive = buffer.get()!=0;
 			int x=buffer.getInt();
-			System.out.println(buffer.position());
 			int y=buffer.getInt();
-			boolean alive = !(x < 0 || y < 0 || x >= voidRunnerBoard.boardHeight || y>= voidRunnerBoard.boardWidth || voidRunnerBoard.fieldDestroyed(x, y));
-			System.out.println("posX: " + x + " posY: " + y + " alive: " + alive);
 			voidRunnerBoard.handleUpdate(uuid, alive, x, y);
 		}
     	}
