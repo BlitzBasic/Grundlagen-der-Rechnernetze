@@ -77,7 +77,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 			System.out.println(Integer.toBinaryString(buf));
 			for (int b = 7; b >= 0; b--) {
 				if(a>=boardHeight*boardWidth) break;
-				flatBoard[a++] = ((1 & (buf >>> b)) == 1); // parse bit^
+				flatBoard[a++] = ((1 & (buf >>> b)) == 1); // parse bit
 			}
 		}
 
@@ -87,7 +87,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		for (int x = 0; x < boardWidth; x++) {
 			for (int y = 0; y < boardHeight; y++) {
-				board[x][y] = flatBoard[y + (x * boardHeight)];
+				board[x][y] = flatBoard[x + (y * boardWidth)];
 			}
 		}
 
