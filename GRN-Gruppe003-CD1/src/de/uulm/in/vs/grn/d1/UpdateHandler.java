@@ -21,7 +21,7 @@ public class UpdateHandler extends Thread {
     public void run() {
         
     	while(true){
-    	byte[] receiveData = new byte[244];
+    	byte[] receiveData = new byte[254];
 
 		try {
 			

@@ -53,6 +53,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 			DatagramPacket incomingPacket = new DatagramPacket(receiveData, receiveData.length);
 
 			clientSocket.receive(incomingPacket);
+			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -92,7 +93,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 					board[counterX][counterY] = false;
 				} else {
 
-					board[counterX][counterY] = bitmap.charAt(k - leadingZeros) == '0' ? true : false;
+					board[counterX][counterY] = bitmap.charAt(k - leadingZeros) == '1' ? true : false;
 				}
 				counterX = (counterX + 1) % boardWidth;
 				if (counterX == 0){
@@ -135,8 +136,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		byte[] payload = outBuffer.array();
 
-		DatagramPacket outPacket = new DatagramPacket(payload, payload.length, serverEndpoint); // TODO:
-																								// Port??
+		DatagramPacket outPacket = new DatagramPacket(payload, payload.length, serverEndpoint); 
 		try {
 			clientSocket.send(outPacket);
 
