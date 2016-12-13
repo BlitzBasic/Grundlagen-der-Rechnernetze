@@ -156,8 +156,6 @@ public class VoidRunnerBoard extends JPanel implements ActionListener {
         }
     }
 
-
-    
     // handle one move step per game tick
     private void move() {
         switch (direction) {
@@ -210,7 +208,5 @@ public class VoidRunnerBoard extends JPanel implements ActionListener {
 
         void sendUpdate(UUID uuid, int x, int y);
     }
-    
-    
 
 }

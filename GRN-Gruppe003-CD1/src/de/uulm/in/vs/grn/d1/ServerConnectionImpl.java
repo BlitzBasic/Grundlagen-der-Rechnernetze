@@ -36,8 +36,8 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		ByteBuffer outBuffer = ByteBuffer.allocate(24);
 
-		outBuffer.putLong(leastSig);
 		outBuffer.putLong(mostSig);
+		outBuffer.putLong(leastSig);
 		for (int i = 0; i < 8; i++)
 			outBuffer.put((byte) -1);
 
@@ -53,7 +53,6 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 			DatagramPacket incomingPacket = new DatagramPacket(receiveData, receiveData.length);
 
 			clientSocket.receive(incomingPacket);
-			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -71,41 +70,71 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		System.out.println("posX: " + posX + " posY: " + posY + " Width: " + boardWidth + " Height: " + boardHeight);
 
-		boolean[][] board = new boolean[boardWidth][boardHeight];
-		int counterX = 0;
-		int counterY = 0;
+		boolean[] flatBoard = new boolean[boardHeight * boardWidth];
 
-		for (int r = 0; r < (boardWidth * boardHeight) / 32; r++) {
-			int bitmapInt = buffer.getInt();
-			String bitmap = Integer.toBinaryString(bitmapInt);
-
-			
-			int leadingZeros = 32-bitmap.length();
-
-			for (int k = 0; k < 32; k++) {
-				
-				System.out.print(counterX +" : "+counterY+ " | ");
-				if (counterY > boardHeight) {
-					
-					break;
-				}
-				if (k < leadingZeros) {
-					board[counterX][counterY] = false;
-				} else {
-
-					board[counterX][counterY] = bitmap.charAt(k - leadingZeros) == '1' ? true : false;
-				}
-				counterX = (counterX + 1) % boardWidth;
-				if (counterX == 0){
-					System.out.println();
-					counterY++;}
+		for (int a = 0; a < boardHeight * boardWidth; a++) {
+			byte buf = buffer.get();
+			for (int b = 7; b >= 0; b--) {
+				flatBoard[a] = ((1 & (buf >>> b)) == 1); // parse bit^
 			}
-
 		}
 
+		System.out.println(Arrays.toString(flatBoard));
+
+		boolean[][] board = new boolean[boardWidth][boardHeight];
+
+		for (int x = 0; x < boardWidth; x++) {
+			for (int y = 0; y < boardHeight; y++) {
+				board[x][y] = flatBoard[y + (x * boardHeight)];
+			}
+		}
+
+		// boolean[][] board = new boolean[boardWidth][boardHeight];
+		// int counterX = 0;
+		// int counterY = 0;
+		//
+		// for (int r = 0; r < (boardWidth * boardHeight) / 32; r++) {
+		// int bitmapInt = buffer.getInt();
+		// String bitmap = Integer.toBinaryString(bitmapInt);
+		//
+		// int leadingZeros = 32-bitmap.length();
+		//
+		// for(int cnt = 0; cnt < leadingZeros; cnt++)
+		// bitmap = "0" + bitmap;
+		//
+		// System.out.println(bitmap.length());
+		//
+		// for (int k = 0; k < 32; k++) {
+		//
+		// System.out.print(counterX +" : "+counterY+ " | ");
+		// if (counterX > boardWidth) {
+		//
+		// break;
+		// }
+		// /*if (k < leadingZeros) {
+		// board[counterX][counterY] = false;
+		// } else {*/
+		//
+		// board[counterX][counterY] = bitmap.charAt(k) == '1' ? true : false;
+		// //}
+		// counterY = (counterY + 1) % boardHeight;
+		// if (counterY == 0){
+		// System.out.println();
+		// counterX++;}
+		// }
+		//
+		// }
+
 		System.out.println();
-		for (boolean[] bs : board) {
-			for(boolean b:bs) System.out.print(b?1:0);
+		/*
+		 * for (boolean[] bs : board) { for(boolean b:bs)
+		 * System.out.print(b?1:0); System.out.println(); }
+		 */
+
+		for (int a = 0; a < board[0].length; a++) {
+			for (int b = 0; b < board.length; b++) {
+				System.out.print(board[b][a] ? 1 : 0);
+			}
 			System.out.println();
 		}
 
@@ -136,7 +165,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		byte[] payload = outBuffer.array();
 
-		DatagramPacket outPacket = new DatagramPacket(payload, payload.length, serverEndpoint); 
+		DatagramPacket outPacket = new DatagramPacket(payload, payload.length, serverEndpoint);
 		try {
 			clientSocket.send(outPacket);
 
@@ -147,7 +176,8 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		// TODO remove the following line and actually send an UDP packet
 		// containing the update to the server
-		// voidRunnerBoard.handleUpdate(uuid, !(x < 0 || y < 0 || x >= 32 || y>= 32), x, y);
+		// voidRunnerBoard.handleUpdate(uuid, !(x < 0 || y < 0 || x >= 32 || y>=
+		// 32), x, y);
 	}
 
 }
