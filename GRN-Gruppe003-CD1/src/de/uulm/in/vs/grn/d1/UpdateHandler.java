@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.UUID;
 
 public class UpdateHandler extends Thread {
@@ -30,7 +29,6 @@ public class UpdateHandler extends Thread {
 			clientSocket.receive(incomingPacket);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -46,8 +44,6 @@ public class UpdateHandler extends Thread {
 		}
     	}
     	
-    	// TODO receive and parse updates send by the server
-        // voidRunnerBoard.handleUpdate(id, alive, x, y);
     }
 
 }

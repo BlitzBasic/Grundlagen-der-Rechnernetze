@@ -1,9 +1,7 @@
 package de.uulm.in.vs.grn.c1;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.Socket;
-import java.net.URL;
 
 public class Sockagram {
 
@@ -45,19 +43,13 @@ public class Sockagram {
 			}
 			out.flush();
 
-//			while(in.available()==0);
 			
 			int status = in.read();
-			if(status==-1) System.out.println("Der Server ist mal wieder scheiße");
-			System.out.println(status);
 			int newLength = 0;
 			for (int i = 0; i < 4; i++) {
 				int buffer = in.read();
-				System.out.println(buffer);
 				newLength += buffer << 8 * (3 - i);
 			}
-
-			System.out.println(newLength);
 
 			if (status != 0) {
 				String message = "";
