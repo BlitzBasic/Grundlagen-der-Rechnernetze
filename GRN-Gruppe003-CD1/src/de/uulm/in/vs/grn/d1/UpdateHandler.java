@@ -19,6 +19,7 @@ public class UpdateHandler extends Thread {
     @Override
     public void run() {
         
+    	//always receive packets
     	while(true){
     	byte[] receiveData = new byte[254];
 

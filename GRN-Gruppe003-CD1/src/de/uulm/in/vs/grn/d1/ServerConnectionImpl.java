@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
@@ -27,6 +26,7 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 	@Override
 	public boolean[][] initializeGame(UUID uuid) {
 
+		// prepare first Packet
 		long leastSig = uuid.getLeastSignificantBits();
 		long mostSig = uuid.getMostSignificantBits();
 
@@ -44,9 +44,9 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 		byte[] receiveData = new byte[4096];
 
 		try {
+			// send and receive
 			clientSocket.send(outPacket);
 			DatagramPacket incomingPacket = new DatagramPacket(receiveData, receiveData.length);
-
 			clientSocket.receive(incomingPacket);
 
 		} catch (IOException e) {
@@ -55,31 +55,26 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 
 		ByteBuffer buffer = ByteBuffer.wrap(receiveData);
 
-		System.out.println("Initiation:");
-
 		int posX = buffer.getInt();
 		int posY = buffer.getInt();
 		int boardWidth = buffer.getInt();
 		int boardHeight = buffer.getInt();
 
-		System.out.println("posX: " + posX + " posY: " + posY + " Width: " + boardWidth + " Height: " + boardHeight);
-
 		boolean[] flatBoard = new boolean[boardHeight * boardWidth];
 
+		// read Bitmap
 		for (int a = 0; a < boardHeight * boardWidth; a++) {
 			byte buf = buffer.get();
-			System.out.println(Integer.toBinaryString(buf));
 			boolean[] bits = new boolean[8];
 			for (int b = 7; b >= 0; b--) {
-				if(a>=boardHeight*boardWidth) break;
-					bits[b]	=((1 & (buf >>> b)) == 1); // parse bit
+				if (a >= boardHeight * boardWidth)
+					break;
+				bits[b] = ((1 & (buf >>> b)) == 1); // parse bit
 			}
-			for(int v=0; v<7; v++){
-				flatBoard[a++]=bits[v];
+			for (int v = 0; v < 7; v++) {
+				flatBoard[a++] = bits[v];
 			}
 		}
-
-		System.out.println(Arrays.toString(flatBoard));
 
 		boolean[][] board = new boolean[boardWidth][boardHeight];
 
@@ -89,25 +84,16 @@ public class ServerConnectionImpl implements VoidRunnerBoard.ServerConnection {
 			}
 		}
 
-		
-
-		for (int a = 0; a < board[0].length; a++) {
-			for (int b = 0; b < board.length; b++) {
-				System.out.print(board[b][a] ? 1 : 0);
-			}
-			System.out.println();
-		}
-
 		voidRunnerBoard.setInitialPosition(posX, posY);
 		updateHandler.start();
 		return board;
-
 
 	}
 
 	@Override
 	public void sendUpdate(UUID uuid, int x, int y) {
 
+		// prepare packet
 		long leastSig = uuid.getLeastSignificantBits();
 		long mostSig = uuid.getMostSignificantBits();
 
