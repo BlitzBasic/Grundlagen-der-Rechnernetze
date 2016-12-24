@@ -194,7 +194,9 @@ auto/
 desktop.ini
 Thumbs.db
 
-# PDF, HTML and PNG
+# PDF, HTML and Pictures
 *.png
 *.pdf
 *.html
+*.jpg
+*.jpeg

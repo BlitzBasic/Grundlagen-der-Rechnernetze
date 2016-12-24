@@ -1,6 +1,7 @@
 package de.uulm.in.vs.grn.c1;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Sockagram {
@@ -18,9 +19,11 @@ public class Sockagram {
 
 		File oldFile = new File(filename);
 		File newFile = new File("edited_" + filename);
-
+		
 		// open connection
-		try (Socket socket = new Socket("134.60.77.152", 7777);
+		try (
+				Socket socket = new Socket(InetAddress.getLocalHost(), 7777);
+//				Socket socket = new Socket("134.60.77.152", 7777);//Uniserver
 				BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
 				BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
 				BufferedInputStream fileIn = new BufferedInputStream(new FileInputStream(oldFile))) {
@@ -30,8 +33,10 @@ public class Sockagram {
 			// write file length into stream
 			out.write(new byte[] { filterTypeByte, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
 					(byte) (fileLength >>> 8), (byte) fileLength });
+			
 
 			// read
+			System.out.println(fileLength);
 			byte[] buf = new byte[1000000];
 			int bytesRead = 0;
 			while ((bytesRead = fileIn.read(buf)) != -1) {
@@ -64,6 +69,7 @@ public class Sockagram {
 				}
 			}
 
+			System.out.println("empfangen");
 		} catch (IOException e1) {
 			System.err.println("Couldn't write file");
 
