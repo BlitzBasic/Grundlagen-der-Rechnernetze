@@ -16,7 +16,6 @@ public class Sockagram {
 		int filterTypeInt = Integer.parseInt(args[0]);
 		byte filterTypeByte = (byte) filterTypeInt;
 		String filename = args[1];
-
 		File oldFile = new File(filename);
 		File newFile = new File("edited_" + filename);
 		
