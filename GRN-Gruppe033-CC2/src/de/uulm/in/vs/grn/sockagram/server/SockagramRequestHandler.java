@@ -28,91 +28,106 @@ public class SockagramRequestHandler implements Runnable {
 				int buffer = inputStream.read();
 				size += buffer << 8 * (3 - i);
 			}
-			System.out.println("Handler: "+size);
-			
-			byte[] data = new byte[size];
-			
-			int readBytes = inputStream.read(data,0,size);
+			System.out.println("Handler received file length: " + size);
 
-			System.out.println("read: " + readBytes);
+			byte[] data = new byte[size];
+
+			// try {
+			// Thread.sleep(1000);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			int readBytes = 0;
+			while (size > 0) {
+				readBytes = inputStream.read(data, data.length - size, size);
+				if(readBytes==-1){
+					System.out.println("Handler: Nothing to read");
+					continue;
+				}
+				size -= readBytes;
+			}
+
+			System.out.println("Handler received file read bytes: " + readBytes);
 			byte[] result = "Something went wrong".getBytes();
 			int status = -1;
-			
-			//TODO: Correct filters
+
+			// TODO: Correct filters
 			switch (code) {
 			case -1:
-				status=0;
+				status = -1;
 				result = "No Data received".getBytes();
 				break;
-				
+
 			case 0:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 1:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 2:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 3:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 4:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 5:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 6:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 7:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			case 8:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 
 			default:
-				status=0;
+				status = 0;
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 			}
-			
-			int fileLength=result.length;
-			outputStream.write(new byte[] { (byte)status, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
+
+			int fileLength = result.length;
+			outputStream.write(new byte[] { (byte) status, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
 					(byte) (fileLength >>> 8), (byte) fileLength });
-			
-			
-			System.out.println("fertig");
+
+			System.out.println("Handler sent new file length: " + fileLength);
 			outputStream.write(result);
-			System.out.println("fertig2");
+			System.out.println("Handler sent new file");
 			outputStream.flush();
-			
-			
+
+			connectionSocket.close();
+			System.out.println("Handler finished");
+
 		} catch (BindException bindError) {
 			System.err.println("BindError! (Vielleicht läuft altes Programm noch)");
 			System.exit(1);
 		} catch (IOException iOErrorCon) {
 			iOErrorCon.printStackTrace();
 		}
-		
+
 	}
 }

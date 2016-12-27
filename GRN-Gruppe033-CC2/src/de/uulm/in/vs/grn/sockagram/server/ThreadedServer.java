@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ThreadedSever {
+public class ThreadedServer {
 	private static final int PORT = 7777;
  
 	public static void main(String[] args) {

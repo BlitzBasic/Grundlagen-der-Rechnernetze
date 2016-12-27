@@ -17,7 +17,7 @@ public class Sockagram {
 		byte filterTypeByte = (byte) filterTypeInt;
 		String filename = args[1];
 		File oldFile = new File(filename);
-		File newFile = new File("edited_" + filename);
+		File newFile = new File("edited_" + filename+ ".png");
 		
 		// open connection
 		try (
@@ -29,18 +29,17 @@ public class Sockagram {
 
 			int fileLength = (int) oldFile.length();
 
+			System.out.println("Client input file length: " + fileLength);
 			// write file length into stream
 			out.write(new byte[] { filterTypeByte, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
 					(byte) (fileLength >>> 8), (byte) fileLength });
 			
 
-			// read
-			System.out.println(fileLength);
-			byte[] buf = new byte[1000000];
-			int bytesRead = 0;
-			while ((bytesRead = fileIn.read(buf)) != -1) {
-				out.write(buf, 0, bytesRead);
-			}
+
+	        byte[] data = new byte[(int) oldFile.length()];
+	        int bytesRead = fileIn.read(data);
+	        System.out.println("Client input file read bytes: " + bytesRead);
+	        out.write(data);
 			out.flush();
 
 			int status = in.read();
@@ -49,6 +48,8 @@ public class Sockagram {
 				int buffer = in.read();
 				newLength += buffer << 8 * (3 - i);
 			}
+			System.out.println("Client received file length: " + newLength);
+			System.out.println();
 
 			if (status != 0) {
 				// read error message
@@ -60,17 +61,25 @@ public class Sockagram {
 			} else {
 				// read picture
 				try (BufferedOutputStream fileOut = new BufferedOutputStream(new FileOutputStream(newFile))) {
-					bytesRead = 0;
-					while ((bytesRead = in.read(buf)) != -1) {
-						fileOut.write(buf, 0, bytesRead);
+					data=new byte[newLength];
+					while(newLength>0){
+						bytesRead = in.read(data,data.length - newLength, newLength);
+						if(bytesRead==-1){
+							System.out.println("Client: Nothing to read");
+							continue;
+						}
+						newLength -= bytesRead;
 					}
+					
+					System.out.println("Client received file read bytes: " + (data.length-newLength));
+					fileOut.write(data);
 					fileOut.flush();
 				}
 			}
 
-			System.out.println("empfangen");
+			System.out.println("Client finished");
 		} catch (IOException e1) {
-			System.err.println("Couldn't write file");
+			e1.printStackTrace();
 
 		}
 	}
