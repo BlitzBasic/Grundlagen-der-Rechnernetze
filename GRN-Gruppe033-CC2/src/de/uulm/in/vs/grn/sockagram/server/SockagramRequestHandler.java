@@ -32,12 +32,7 @@ public class SockagramRequestHandler implements Runnable {
 
 			byte[] data = new byte[size];
 
-			// try {
-			// Thread.sleep(1000);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
+
 			int readBytes = 0;
 			while (size > 0) {
 				readBytes = inputStream.read(data, data.length - size, size);
