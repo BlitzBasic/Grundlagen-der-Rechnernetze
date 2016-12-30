@@ -1,7 +1,6 @@
 package de.uulm.in.vs.grn.chat.client;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -21,11 +20,11 @@ public class PubListener extends Thread {
 	@Override
 	public void run() {
 
-		// System.out.println(address +":"+ port);
+		System.out.println("Trying to connect to " + address.getHostAddress() +":"+ port);
 
 		try (Socket pubSocket = new Socket(address, port);
 				BufferedReader inReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
-
+			System.out.println("You are connected!");
 			while (true) {
 
 				try {
