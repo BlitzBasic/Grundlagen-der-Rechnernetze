@@ -12,6 +12,15 @@ public class GRNCP {
 		
 		System.out.println("Welcome to GRNCP!");
 		
+		while(!initiateConnection());
+
+	}
+
+	/**
+	 * initiates connection
+	 * @return true if successful
+	 */
+	public static boolean initiateConnection() {
 		try{
 			
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
@@ -25,12 +34,14 @@ public class GRNCP {
 			System.out.println("Please enter the Pub/Sub-Port of the Chat-Server");
 			int pubSubPort = Integer.parseInt(inputReader.readLine());
 			
+			//TODO: create a new class for command connection, initialize it
 			(new PubListener(ipAddress, pubSubPort)).run();
-			
+			return true;
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-
+		System.out.println("Connection couldn't be established");
+		return false;
 	}
 
 }
