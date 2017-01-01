@@ -24,7 +24,7 @@ public class GRNCP {
 				alreadyStarted = initiateConnection(ipAddress, commandPort, pubSubPort);
 				
 			} catch (Exception e) {
-				// TODO: handle exception
+				// nothing
 			}
 		}else if(!alreadyStarted) {
 			//try to connect
@@ -61,10 +61,10 @@ public class GRNCP {
 			return true;
 			
 		}catch (Exception e) {
-			// TODO: handle exception
+			// nothing
 		}
 		
-		System.out.println("Connection couldn't be established");
+		System.out.println("Connection couldn't be established, please retry!");
 		return false;
 	}
 	

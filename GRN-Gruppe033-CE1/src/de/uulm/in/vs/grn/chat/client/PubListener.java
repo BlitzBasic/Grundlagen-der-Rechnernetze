@@ -11,24 +11,23 @@ public class PubListener extends Thread {
 	private InetAddress address;
 	private int port;
 
-	public PubListener(InetAddress adress, int port) {
+	public PubListener(InetAddress address, int port) {
 		super();
-		this.address = adress;
+		this.address = address;
 		this.port = port;
 	}
 
 	@Override
 	public void run() {
 
-		System.out.println("Trying to connect to " + address.getHostAddress() +":"+ port);
+		System.out.println("Trying to connect to " + address.getHostAddress() + ":" + port);
 
 		try (Socket pubSocket = new Socket(address, port);
 				BufferedReader inReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
 			System.out.println("You are connected!");
+
 			while (true) {
-
 				try {
-
 					String line = inReader.readLine();
 					String[] parameters = line.split(" ", 2);
 
@@ -54,6 +53,9 @@ public class PubListener extends Thread {
 							line = inReader.readLine();
 							String text = line.substring(line.indexOf(' ') + 1);
 
+							//read empty line
+							inReader.readLine();
+							
 							System.out.println(date + " | " + username + ": " + text);
 							break;
 						}
@@ -67,6 +69,9 @@ public class PubListener extends Thread {
 							line = inReader.readLine();
 							String description = line.substring(line.indexOf(' ') + 1);
 
+							//read empty line
+							inReader.readLine();
+							
 							System.out.println(date + " | " + description);
 							break;
 						}
@@ -79,11 +84,11 @@ public class PubListener extends Thread {
 					}
 
 				} catch (IllegalArgumentException e) {
-					// DO Nothing
+					// Do Nothing
 				} catch (ArrayIndexOutOfBoundsException e) {
-					// DO Nothing
+					// Do Nothing
 				} catch (NullPointerException e) {
-					// DO Nothing
+					// Do Nothing
 				}
 
 			}
