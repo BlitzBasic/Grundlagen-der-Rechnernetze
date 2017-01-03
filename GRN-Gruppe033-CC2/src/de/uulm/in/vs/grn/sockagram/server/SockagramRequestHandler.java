@@ -24,7 +24,7 @@ public class SockagramRequestHandler implements Runnable {
 
 			int code = inputStream.read();
 			int size = 0;
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; (i < 4) && (size < 6144); i++) {
 				int buffer = inputStream.read();
 				size += buffer << 8 * (3 - i);
 			}
@@ -61,42 +61,32 @@ public class SockagramRequestHandler implements Runnable {
 
 			case 1:
 				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
+				result = SockagramFilter.BLACKWHITE.apply(data);
 				break;
 
 			case 2:
 				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
+				result = SockagramFilter.EIGHTBIT.apply(data);
 				break;
 
 			case 3:
 				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
+				result = SockagramFilter.YOLO.apply(data);
 				break;
 
 			case 4:
 				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
+				result = SockagramFilter.SWAG.apply(data);
 				break;
 
 			case 5:
 				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
+				result = SockagramFilter.SUMMER.apply(data);
 				break;
 
 			case 6:
 				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
-				break;
-
-			case 7:
-				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
-				break;
-
-			case 8:
-				status = 0;
-				result = SockagramFilter.NOFILTER.apply(data);
+				result = SockagramFilter.SEPIA.apply(data);
 				break;
 
 			default:
