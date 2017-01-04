@@ -22,6 +22,7 @@ public class SockagramRequestHandler implements Runnable {
 				BufferedInputStream inputStream = new BufferedInputStream(connectionSocket.getInputStream());
 				BufferedOutputStream outputStream = new BufferedOutputStream(connectionSocket.getOutputStream())) {
 
+			//read code and file size
 			int code = inputStream.read();
 			int size = 0;
 			for (int i = 0; i < 4; i++) {
@@ -32,7 +33,7 @@ public class SockagramRequestHandler implements Runnable {
 
 			byte[] data = new byte[size];
 
-
+			//continue reading until size bytes are read
 			int readBytes = 0;
 			while (size > 0) {
 				readBytes = inputStream.read(data, data.length - size, size);
@@ -40,14 +41,19 @@ public class SockagramRequestHandler implements Runnable {
 					continue;
 				}
 				size -= readBytes;
+				
 			}
-
+			//Default-case
 			byte[] result = "Something went wrong".getBytes();
 			int status = -1;
+			
+			//Too large file size
 			if(size > 6144){
 				status = -1;
 				result = "file too large".getBytes();
+				
 			}else{
+				//no errors occurred, apply chosen filter
 			switch (code) {
 			case -1:
 				status = -1;
@@ -95,6 +101,8 @@ public class SockagramRequestHandler implements Runnable {
 				break;
 			}
 			}
+			
+			//send new file length and the edited picture
 			int fileLength = result.length;
 			outputStream.write(new byte[] { (byte) status, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
 					(byte) (fileLength >>> 8), (byte) fileLength });

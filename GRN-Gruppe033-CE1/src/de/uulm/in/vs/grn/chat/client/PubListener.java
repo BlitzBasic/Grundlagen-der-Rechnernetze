@@ -22,26 +22,28 @@ public class PubListener extends Thread {
 
 		System.out.println("Trying to connect to " + address.getHostAddress() + ":" + port);
 
+		// tries to establish a connection
 		try (Socket pubSocket = new Socket(address, port);
 				BufferedReader inReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
 			System.out.println("You are connected!");
 
 			while (true) {
 				try {
+					// read first line of message
 					String line = inReader.readLine();
 					String[] parameters = line.split(" ", 2);
 
-					// TODO: Catch Exceptions
 					String protocol = parameters[0];
 					CommandExpression commandExp = CommandExpression.valueOf(parameters[1]);
 
+					// Check for the implemented protocol version
 					if (protocol.equals(PROTOCOL_VERSION)) {
 
+						// choose the correct message type
 						switch (commandExp) {
 
-						case MESSAGE:
-						// read date
-						{
+						case MESSAGE: {
+							// read date
 							line = inReader.readLine();
 							String date = line.substring(line.indexOf(' ') + 1);
 
@@ -53,9 +55,9 @@ public class PubListener extends Thread {
 							line = inReader.readLine();
 							String text = line.substring(line.indexOf(' ') + 1);
 
-							//read empty line
+							// read empty line
 							inReader.readLine();
-							
+
 							System.out.println(date + " | " + username + ": " + text);
 							break;
 						}
@@ -69,26 +71,28 @@ public class PubListener extends Thread {
 							line = inReader.readLine();
 							String description = line.substring(line.indexOf(' ') + 1);
 
-							//read empty line
+							// read empty line
 							inReader.readLine();
-							
+
 							System.out.println(date + " | " + description);
 							break;
 						}
 
 						default:
-							// Ignore
+							// ignore
 							break;
 						}
 
 					}
 
 				} catch (IllegalArgumentException e) {
-					// Do Nothing
+					// do nothing
 				} catch (ArrayIndexOutOfBoundsException e) {
-					// Do Nothing
+					// do nothing
+				} catch (IndexOutOfBoundsException e) {
+					// do nothing
 				} catch (NullPointerException e) {
-					// Do Nothing
+					// do nothing
 				}
 
 			}
