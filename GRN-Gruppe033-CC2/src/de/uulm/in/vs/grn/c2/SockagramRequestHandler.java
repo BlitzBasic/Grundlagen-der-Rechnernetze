@@ -1,4 +1,4 @@
-package de.uulm.in.vs.grn.sockagram.server;
+package de.uulm.in.vs.grn.c2;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,11 +24,11 @@ public class SockagramRequestHandler implements Runnable {
 
 			int code = inputStream.read();
 			int size = 0;
-			for (int i = 0; (i < 4) && (size < 6144); i++) {
+			for (int i = 0; i < 4; i++) {
 				int buffer = inputStream.read();
 				size += buffer << 8 * (3 - i);
 			}
-			System.out.println("Handler received file length: " + size);
+			
 
 			byte[] data = new byte[size];
 
@@ -37,17 +37,17 @@ public class SockagramRequestHandler implements Runnable {
 			while (size > 0) {
 				readBytes = inputStream.read(data, data.length - size, size);
 				if(readBytes==-1){
-					System.out.println("Handler: Nothing to read");
 					continue;
 				}
 				size -= readBytes;
 			}
 
-			System.out.println("Handler received file read bytes: " + readBytes);
 			byte[] result = "Something went wrong".getBytes();
 			int status = -1;
-
-			// TODO: Correct filters
+			if(size > 6144){
+				status = -1;
+				result = "file too large".getBytes();
+			}else{
 			switch (code) {
 			case -1:
 				status = -1;
@@ -94,18 +94,15 @@ public class SockagramRequestHandler implements Runnable {
 				result = SockagramFilter.NOFILTER.apply(data);
 				break;
 			}
-
+			}
 			int fileLength = result.length;
 			outputStream.write(new byte[] { (byte) status, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
 					(byte) (fileLength >>> 8), (byte) fileLength });
 
-			System.out.println("Handler sent new file length: " + fileLength);
 			outputStream.write(result);
-			System.out.println("Handler sent new file");
 			outputStream.flush();
 
 			connectionSocket.close();
-			System.out.println("Handler finished");
 
 		} catch (BindException bindError) {
 			System.err.println("BindError! (Vielleicht läuft altes Programm noch)");

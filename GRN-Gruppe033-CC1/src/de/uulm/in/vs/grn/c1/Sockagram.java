@@ -29,7 +29,6 @@ public class Sockagram {
 
 			int fileLength = (int) oldFile.length();
 
-			System.out.println("Client input file length: " + fileLength);
 			// write file length into stream
 			out.write(new byte[] { filterTypeByte, (byte) (fileLength >>> 24), (byte) (fileLength >>> 16),
 					(byte) (fileLength >>> 8), (byte) fileLength });
@@ -38,7 +37,6 @@ public class Sockagram {
 
 	        byte[] data = new byte[(int) oldFile.length()];
 	        int bytesRead = fileIn.read(data);
-	        System.out.println("Client input file read bytes: " + bytesRead);
 	        out.write(data);
 			out.flush();
 
@@ -48,7 +46,6 @@ public class Sockagram {
 				int buffer = in.read();
 				newLength += buffer << 8 * (3 - i);
 			}
-			System.out.println("Client received file length: " + newLength);
 			System.out.println();
 
 			if (status != 0) {
@@ -65,19 +62,16 @@ public class Sockagram {
 					while(newLength>0){
 						bytesRead = in.read(data,data.length - newLength, newLength);
 						if(bytesRead==-1){
-							System.out.println("Client: Nothing to read");
 							continue;
 						}
 						newLength -= bytesRead;
 					}
 					
-					System.out.println("Client received file read bytes: " + (data.length-newLength));
 					fileOut.write(data);
 					fileOut.flush();
 				}
 			}
 
-			System.out.println("Client finished");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 

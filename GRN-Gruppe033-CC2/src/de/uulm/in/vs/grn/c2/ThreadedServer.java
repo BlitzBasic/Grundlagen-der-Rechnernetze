@@ -1,4 +1,4 @@
-package de.uulm.in.vs.grn.sockagram.server;
+package de.uulm.in.vs.grn.c2;
 
 import java.io.IOException;
 import java.net.BindException;
