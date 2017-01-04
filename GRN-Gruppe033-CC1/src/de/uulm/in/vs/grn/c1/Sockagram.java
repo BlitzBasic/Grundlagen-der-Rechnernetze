@@ -1,7 +1,7 @@
 package de.uulm.in.vs.grn.c1;
 
 import java.io.*;
-import java.net.InetAddress;
+//import java.net.InetAddress; //for own server
 import java.net.Socket;
 
 public class Sockagram {
@@ -21,8 +21,8 @@ public class Sockagram {
 		
 		// open connection
 		try (
-				Socket socket = new Socket(InetAddress.getLocalHost(), 7777);
-//				Socket socket = new Socket("134.60.77.152", 7777);//Uniserver
+//				Socket socket = new Socket(InetAddress.getLocalHost(), 7777); //own server
+				Socket socket = new Socket("134.60.77.152", 7777);//uni server
 				BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
 				BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
 				BufferedInputStream fileIn = new BufferedInputStream(new FileInputStream(oldFile))) {
