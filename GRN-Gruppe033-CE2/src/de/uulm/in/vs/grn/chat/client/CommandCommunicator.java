@@ -29,6 +29,13 @@ public class CommandCommunicator extends Thread {
 			while (true) {
 				try {
 					
+					while(true){
+						String inputLine = inputReader.readLine();
+					}
+					
+					
+					
+					
 					//first write, than receive
 					
 //					// read first line of message
