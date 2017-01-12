@@ -6,6 +6,6 @@ package de.uulm.in.vs.grn.chat.client;
  */
 public enum CommandExpression {
 
-	MESSAGE, EVENT 
+	MESSAGE, EVENT, LOGIN, SEND, PING, BYE, LOGGEDIN, SENT, PONG, EXPIRED, ERROR, BYEBYE
 	
 }

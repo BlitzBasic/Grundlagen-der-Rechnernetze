@@ -6,6 +6,8 @@ import java.net.InetAddress;
 
 public class GRNCP {
 
+	public static final String PROTOCOL_VERSION = "GRNCP/0.1";
+
 	public static void main(String[] args) {
 
 		// This client is command line based
@@ -59,9 +61,9 @@ public class GRNCP {
 			// starts a thread that connects to the server and displays all
 			// messages
 			(new PubListener(ipAddress, pubSubPort)).run();
-			//TODO: parameters
-			(new CommandCommunicator()).run();
-			
+			// starts a thread that initiates the command connection
+			(new CommandCommunicator(ipAddress, commandPort)).run();
+
 			return true;
 
 		} catch (Exception e) {
@@ -82,15 +84,15 @@ public class GRNCP {
 			// starts a thread that connects to the server and displays all
 			// messages
 			(new PubListener(ipAddress, pubSubPort)).run();
-			//TODO: parameters
-			(new CommandCommunicator()).run();
+			// starts a thread that initiates the command connection
+			(new CommandCommunicator(ipAddress, commandPort)).run();
 			return true;
 
 		} catch (Exception e) {
 			// nothing
 		}
 
-		//if something went wrong
+		// if something went wrong
 		System.out.println("Connection couldn't be established");
 		return false;
 	}

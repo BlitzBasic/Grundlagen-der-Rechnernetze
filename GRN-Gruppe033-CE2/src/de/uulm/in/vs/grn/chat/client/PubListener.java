@@ -7,7 +7,6 @@ import java.net.Socket;
 
 public class PubListener extends Thread {
 
-	private static final String PROTOCOL_VERSION = "GRNCP/0.1";
 	private InetAddress address;
 	private int port;
 
@@ -24,39 +23,39 @@ public class PubListener extends Thread {
 
 		// tries to establish a connection
 		try (Socket pubSocket = new Socket(address, port);
-				BufferedReader inReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
+				BufferedReader pubReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
 			System.out.println("You are connected!");
 
 			while (true) {
 				try {
 					// read first line of message
-					String line = inReader.readLine();
+					String line = pubReader.readLine();
 					String[] parameters = line.split(" ", 2);
 
 					String protocol = parameters[0];
 					CommandExpression commandExp = CommandExpression.valueOf(parameters[1]);
 
 					// Check for the implemented protocol version
-					if (protocol.equals(PROTOCOL_VERSION)) {
+					if (protocol.equals(GRNCP.PROTOCOL_VERSION)) {
 
 						// choose the correct message type
 						switch (commandExp) {
 
 						case MESSAGE: {
 							// read date
-							line = inReader.readLine();
+							line = pubReader.readLine();
 							String date = line.substring(line.indexOf(' ') + 1);
 
 							// read name
-							line = inReader.readLine();
+							line = pubReader.readLine();
 							String username = line.substring(line.indexOf(' ') + 1);
 
 							// read text
-							line = inReader.readLine();
+							line = pubReader.readLine();
 							String text = line.substring(line.indexOf(' ') + 1);
 
 							// read empty line
-							inReader.readLine();
+							pubReader.readLine();
 
 							System.out.println(date + " | " + username + ": " + text);
 							break;
@@ -64,15 +63,15 @@ public class PubListener extends Thread {
 
 						case EVENT: {
 							// read date
-							line = inReader.readLine();
+							line = pubReader.readLine();
 							String date = line.substring(line.indexOf(' ') + 1);
 
 							// read description
-							line = inReader.readLine();
+							line = pubReader.readLine();
 							String description = line.substring(line.indexOf(' ') + 1);
 
 							// read empty line
-							inReader.readLine();
+							pubReader.readLine();
 
 							System.out.println(date + " | " + description);
 							break;
