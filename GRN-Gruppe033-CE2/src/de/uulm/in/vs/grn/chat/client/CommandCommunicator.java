@@ -10,7 +10,6 @@ import java.net.Socket;
 
 public class CommandCommunicator extends Thread {
 
-	
 	private InetAddress address;
 	private int port;
 	private boolean active = false;
@@ -21,21 +20,24 @@ public class CommandCommunicator extends Thread {
 		this.port = port;
 		active = true;
 	}
-	
-	public void run(){
+
+	public void run() {
 		try (Socket commandSocket = new Socket(address, port);
-				BufferedReader commandSocketReader = new BufferedReader(new InputStreamReader(commandSocket.getInputStream()));
-				BufferedWriter commandSocketWriter = new BufferedWriter(new OutputStreamWriter(commandSocket.getOutputStream()));
-				BufferedReader inputReader = new BufferedReader(new InputStreamReader(commandSocket.getInputStream()))) {
+				BufferedReader commandSocketReader = new BufferedReader(
+						new InputStreamReader(commandSocket.getInputStream()));
+				BufferedWriter commandSocketWriter = new BufferedWriter(
+						new OutputStreamWriter(commandSocket.getOutputStream()));
+				BufferedReader inputReader = new BufferedReader(
+						new InputStreamReader(commandSocket.getInputStream()))) {
 
 			while (active) {
-//				try {
-//					
-//					
-//
-//				} catch (IOException e) {
-//					// do nothing
-//				}
+				// try {
+				//
+				//
+				//
+				// } catch (IOException e) {
+				// // do nothing
+				// }
 
 			}
 

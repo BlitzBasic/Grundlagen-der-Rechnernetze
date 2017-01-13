@@ -2,14 +2,16 @@ package de.uulm.in.vs.grn.chat.client.events;
 
 public class PubEvent extends GRNCPEvent {
 
-	public PubEvent(String date) {
+	private final String description;
+
+	public PubEvent(String date, String description) {
 		super(date);
-		// TODO Auto-generated constructor stub
+		this.description = description;
 	}
 
 	@Override
 	public void handle() {
-		// TODO Auto-generated method stub
+		System.out.println(date + " | " + description);
 
 	}
 

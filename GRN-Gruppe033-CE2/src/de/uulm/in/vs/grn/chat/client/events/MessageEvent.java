@@ -2,15 +2,18 @@ package de.uulm.in.vs.grn.chat.client.events;
 
 public class MessageEvent extends GRNCPEvent {
 
-	public MessageEvent(String date) {
+	private final String username;
+	private final String text;
+
+	public MessageEvent(String date, String username, String text) {
 		super(date);
-		// TODO Auto-generated constructor stub
+		this.username = username;
+		this.text = text;
 	}
 
 	@Override
 	public void handle() {
-		// TODO Auto-generated method stub
-
+		System.out.println(date + " | " + username + ": " + text);
 	}
 
 }
