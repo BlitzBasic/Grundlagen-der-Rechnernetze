@@ -3,17 +3,17 @@ package de.uulm.in.vs.grn.chat.client;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import de.uulm.in.vs.grn.chat.client.messages.GRNCPDisplayableMessage;
+import de.uulm.in.vs.grn.chat.client.messages.Displayable;
 import de.uulm.in.vs.grn.chat.client.messages.events.Event;
 
 public class DisplayWorker extends Thread {
 
-	private Queue<GRNCPDisplayableMessage> messages;
+	private Queue<Displayable> messages;
 	private boolean active = false;
 
 	public DisplayWorker() {
 		super();
-		messages = new LinkedList<GRNCPDisplayableMessage>();
+		messages = new LinkedList<Displayable>();
 		active = true;
 	}
 
@@ -37,9 +37,13 @@ public class DisplayWorker extends Thread {
 			// nothing
 		}
 		while (!messages.isEmpty()) {
-			GRNCPDisplayableMessage message = messages.poll();
+			Displayable message = messages.poll();
 			message.display();
 		}
+	}
+	
+	public void disable(){
+		active = false;
 	}
 
 }

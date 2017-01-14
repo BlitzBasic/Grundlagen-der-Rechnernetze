@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 import de.uulm.in.vs.grn.chat.client.messages.events.GRNCPMessageEvent;
 import de.uulm.in.vs.grn.chat.client.messages.events.GRNCPEvent;
@@ -13,16 +14,15 @@ public class PubListener extends Thread {
 	private InetAddress address;
 	private int port;
 	private boolean active = false;
-	private DisplayWorker worker;
+	private DisplayWorker displayWorker;
 
-	public PubListener(InetAddress address, int port) {
+	public PubListener(InetAddress address, int port, DisplayWorker displayWorker) {
 		super();
 		this.address = address;
 		this.port = port;
-		worker = new DisplayWorker();
-		worker.start();
+		this.displayWorker = displayWorker;
 		active = true;
-		
+
 	}
 
 	@Override
@@ -63,36 +63,44 @@ public class PubListener extends Thread {
 						} else if (response.equals("")) {
 							switch (command) {
 							case "MESSAGE":
-								worker.addEvent(new GRNCPMessageEvent(date, username, text));
+								displayWorker.addEvent(new GRNCPMessageEvent(date, username, text));
 								command = "";
 								break;
 							case "EVENT":
-								worker.addEvent(new GRNCPEvent(date, description));
+								displayWorker.addEvent(new GRNCPEvent(date, description));
 								command = "";
 								break;
 							}
-							
+
 						}
 					} while (response != null);
 
-				
-				} catch (IllegalArgumentException e) {
-					// do nothing
 				} catch (ArrayIndexOutOfBoundsException e) {
 					// do nothing
 				} catch (IndexOutOfBoundsException e) {
 					// do nothing
 				} catch (NullPointerException e) {
 					// do nothing
+				} catch (SocketException e){
+					active = false;
+					System.out.println("Connection lost, please reconnect");
+					while(GRNCP.initiateConnection())
+						;
 				}
 
 			}
 
 		} catch (Exception e) {
 			System.out.println("An exception occured, please reconnect.");
-			GRNCP.initiateConnection();
+			displayWorker.disable();
+			while(GRNCP.initiateConnection())
+			;
 		}
 
+	}
+	
+	public void disable(){
+		active = false;
 	}
 
 }

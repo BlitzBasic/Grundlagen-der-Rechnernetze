@@ -58,7 +58,7 @@ public class GRNCP {
 
 			// starts a thread that connects to the server and displays all
 			// messages
-			(new PubListener(ipAddress, pubSubPort)).run();
+			(new PubListener(ipAddress, pubSubPort)).start();
 			return true;
 
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class GRNCP {
 		try {
 			// starts a thread that connects to the server and displays all
 			// messages
-			(new PubListener(ipAddress, pubSubPort)).run();
+			(new PubListener(ipAddress, pubSubPort)).start();
 			return true;
 
 		} catch (Exception e) {

@@ -7,6 +7,10 @@ import java.net.InetAddress;
 public class GRNCP {
 
 	public static final String PROTOCOL_VERSION = "GRNCP/0.1";
+	private static PubListener pubListener;
+	private static DisplayWorker displayWorker;
+	private static CommandController controller;
+	private static BufferedReader inputReader;
 
 	public static void main(String[] args) {
 
@@ -18,6 +22,7 @@ public class GRNCP {
 		boolean alreadyStarted = false;
 		if (args.length == 3) {
 			try {
+				inputReader = new BufferedReader(new InputStreamReader(System.in));
 				InetAddress ipAddress = InetAddress.getByName(args[0]);
 				int commandPort = Integer.parseInt(args[1]);
 				int pubSubPort = Integer.parseInt(args[2]);
@@ -44,13 +49,13 @@ public class GRNCP {
 	public static boolean initiateConnection() {
 		try {
 
-			BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+			disableAllActive();
 
 			// used to connect to a server
 			System.out.println("Please enter the IP-Address of the Chat-Server");
 			InetAddress ipAddress = InetAddress.getByName(inputReader.readLine());
 
-			// will later be used to implement the command connection
+			// used to implement the command connection
 			System.out.println("Please enter the Command-Port of the Chat-Server");
 			int commandPort = Integer.parseInt(inputReader.readLine());
 
@@ -58,16 +63,10 @@ public class GRNCP {
 			System.out.println("Please enter the Pub/Sub-Port of the Chat-Server");
 			int pubSubPort = Integer.parseInt(inputReader.readLine());
 
-			// starts a thread that connects to the server and displays all
-			// messages
-			(new PubListener(ipAddress, pubSubPort)).run();
-			// starts a thread that initiates the command connection
-			(new CommandCommunicator(ipAddress, commandPort)).run();
-
-			return true;
-
+			return initiateConnection(ipAddress, commandPort, pubSubPort);
 		} catch (Exception e) {
 			// nothing
+			e.printStackTrace();
 		}
 
 		System.out.println("Connection couldn't be established, please retry!");
@@ -83,9 +82,13 @@ public class GRNCP {
 		try {
 			// starts a thread that connects to the server and displays all
 			// messages
-			(new PubListener(ipAddress, pubSubPort)).run();
+			displayWorker = new DisplayWorker();
+			displayWorker.start();
+			pubListener = new PubListener(ipAddress, pubSubPort, displayWorker);
+					pubListener.start();
 			// starts a thread that initiates the command connection
-			(new CommandCommunicator(ipAddress, commandPort)).run();
+			controller = new CommandController(ipAddress, commandPort, displayWorker, inputReader);
+					controller.start();
 			return true;
 
 		} catch (Exception e) {
@@ -95,6 +98,18 @@ public class GRNCP {
 		// if something went wrong
 		System.out.println("Connection couldn't be established");
 		return false;
+	}
+	
+	public static void disableAllActive(){
+		if (displayWorker!=null){
+			displayWorker.disable();
+		}
+		if (pubListener!=null){
+			pubListener.disable();
+		}
+		if (controller!=null){
+			controller.disable();
+		}
 	}
 
 }
