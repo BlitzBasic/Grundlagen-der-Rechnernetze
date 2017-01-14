@@ -13,12 +13,16 @@ public class PubListener extends Thread {
 	private InetAddress address;
 	private int port;
 	private boolean active = false;
+	private EventWorker worker;
 
 	public PubListener(InetAddress address, int port) {
 		super();
 		this.address = address;
 		this.port = port;
+		worker = new EventWorker();
+		worker.start();
 		active = true;
+		
 	}
 
 	@Override
@@ -59,21 +63,15 @@ public class PubListener extends Thread {
 						} else if (response.equals("")) {
 							switch (command) {
 							case "MESSAGE":
-								MessageEvent message = new MessageEvent(date, username, text);
-
-								// TODO: move into thread
-								message.handle();
+								worker.addEvent(new MessageEvent(date, username, text));
 								command = "";
 								break;
 							case "EVENT":
-								PubEvent event = new PubEvent(date, description);
-
-								// TODO: move into thread
-								event.handle();
-
+								worker.addEvent(new PubEvent(date, description));
 								command = "";
 								break;
 							}
+							
 						}
 					} while (response != null);
 
