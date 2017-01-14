@@ -58,8 +58,14 @@ public class CommandCommunicator extends Thread {
 			// nothing
 		}
 		while (!requests.isEmpty()) {
-			Request request = requests.poll();
-			request.send(writer);
+			try {
+				Request request = requests.poll();
+				request.send(writer);
+			} catch (Exception e) {
+				System.err.println("Request could not be sent");
+				e.printStackTrace(System.err);
+			}
+			
 		}
 	}
 
