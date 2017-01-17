@@ -6,25 +6,17 @@ import java.io.Writer;
 import de.uulm.in.vs.grn.chat.client.GRNCP;
 
 public class GRNCPLogin extends Request {
-	
-	private String loginMessage = "";
-	
-	public GRNCPLogin(){
-		
-	}
-	
+
+	private final String username;
+
 	public GRNCPLogin(String username) {
-		loginMessage = "LOGIN " + GRNCP.PROTOCOL_VERSION + "\r\nUsername: " + username + "\r\n";
+		super();
+		this.username = username;
 	}
-	
-	public void setUsername(String username){
-		loginMessage = "LOGIN " + GRNCP.PROTOCOL_VERSION + "\r\nUsername: " + username + "\r\n";
-	}
-	
+
 	@Override
 	public void send(Writer writer) throws IOException {
-		if(loginMessage != ""){
-			writer.write(loginMessage);
-		}
+		writer.write("LOGIN " + GRNCP.PROTOCOL_VERSION + "\r\nUsername: " + username + "\r\n\r\n");
+
 	}
 }

@@ -7,24 +7,18 @@ import de.uulm.in.vs.grn.chat.client.GRNCP;
 
 public class GRNCPSend extends Request {
 	
-	private String sendMessage = "";
+	private final String text;
 	
-	public GRNCPSend() {
-		
-	}
 	
 	public GRNCPSend(String text){
-		sendMessage = "SEND " + GRNCP.PROTOCOL_VERSION + "\r\nText: " + text + "\r\n";
+		super();
+		this.text = text;
 	}
 	
-	public void setText(String text){
-		sendMessage = "SEND " + GRNCP.PROTOCOL_VERSION + "\r\nText: " + text + "\r\n";
-	}
+	
 
 	@Override
 	public void send(Writer writer) throws IOException {
-		if(sendMessage != ""){
-			writer.write(sendMessage);
-		}
+			writer.write("SEND " + GRNCP.PROTOCOL_VERSION + "\r\nText: " + text + "\r\n\r\n");
 	}
 }

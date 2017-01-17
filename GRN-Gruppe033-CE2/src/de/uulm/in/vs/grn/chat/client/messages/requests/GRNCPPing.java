@@ -7,10 +7,10 @@ import de.uulm.in.vs.grn.chat.client.GRNCP;
 
 public class GRNCPPing extends Request {
 
-	private final String pingMessage = "PING " + GRNCP.PROTOCOL_VERSION + "\r\n";
+	private final String pingMessage = "PING " + GRNCP.PROTOCOL_VERSION + "\r\n\r\n";
 
 	public GRNCPPing() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	@Override

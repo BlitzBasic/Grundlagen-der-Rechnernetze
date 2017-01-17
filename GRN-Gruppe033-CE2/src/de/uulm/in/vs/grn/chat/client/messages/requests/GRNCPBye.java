@@ -7,10 +7,10 @@ import de.uulm.in.vs.grn.chat.client.GRNCP;
 
 public class GRNCPBye extends Request {
 	
-	private final String byeMessage = "BYE " + GRNCP.PROTOCOL_VERSION + "\r\n";
+	private final String byeMessage = "BYE " + GRNCP.PROTOCOL_VERSION + "\r\n\r\n";
 	
 	public GRNCPBye() {
-		
+		super();
 	}
 
 	@Override
