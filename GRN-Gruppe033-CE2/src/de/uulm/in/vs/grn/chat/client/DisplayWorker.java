@@ -1,45 +1,38 @@
 package de.uulm.in.vs.grn.chat.client;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import de.uulm.in.vs.grn.chat.client.messages.Displayable;
 
 public class DisplayWorker extends Thread {
 
-	private Queue<Displayable> messages;
+	private LinkedBlockingQueue<Displayable> messages;
 	private boolean active = false;
 
 	public DisplayWorker() {
 		super();
-		messages = new LinkedList<Displayable>();
+		messages = new LinkedBlockingQueue<Displayable>();
 		active = true;
 	}
 
 	@Override
 	public void run() {
 		while (active) {
-			workOfQueue();
+			
+			try {
+				Displayable message = messages.take();
+				message.display();
+			} catch (InterruptedException e) {
+				//nothing
+			}
+			
 		}
 	}
 
-	public synchronized void addDisplayable(Displayable displayable) {
+	public void addDisplayable(Displayable displayable) {
 		messages.add(displayable);
-		notify();
-
 	}
 
-	public synchronized void workOfQueue() {
-		try {
-			wait();
-		} catch (InterruptedException e) {
-			// nothing
-		}
-		while (!messages.isEmpty()) {
-			Displayable message = messages.poll();
-			message.display();
-		}
-	}
 	
 	public void disable(){
 		active = false;

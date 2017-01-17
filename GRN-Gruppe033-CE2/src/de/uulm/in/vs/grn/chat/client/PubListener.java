@@ -28,12 +28,12 @@ public class PubListener extends Thread {
 	@Override
 	public void run() {
 
-		System.out.println("Trying to connect to " + address.getHostAddress() + ":" + port);
+		System.out.println("Trying to connect to pub/sub at" + address.getHostAddress() + ":" + port);
 
 		// tries to establish a connection
 		try (Socket pubSocket = new Socket(address, port);
 				BufferedReader pubReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
-			System.out.println("You are connected!");
+			System.out.println("You are connected pub/sub!");
 
 			while (active) {
 				try {
