@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import de.uulm.in.vs.grn.chat.client.messages.Displayable;
-import de.uulm.in.vs.grn.chat.client.messages.events.Event;
 
 public class DisplayWorker extends Thread {
 
