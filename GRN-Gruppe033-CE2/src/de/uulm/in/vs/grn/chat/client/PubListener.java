@@ -63,11 +63,11 @@ public class PubListener extends Thread {
 						} else if (response.equals("")) {
 							switch (command) {
 							case "MESSAGE":
-								displayWorker.addEvent(new GRNCPMessageEvent(date, username, text));
+								displayWorker.addDisplayable(new GRNCPMessageEvent(date, username, text));
 								command = "";
 								break;
 							case "EVENT":
-								displayWorker.addEvent(new GRNCPEvent(date, description));
+								displayWorker.addDisplayable(new GRNCPEvent(date, description));
 								command = "";
 								break;
 							}

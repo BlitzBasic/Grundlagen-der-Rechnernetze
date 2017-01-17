@@ -10,7 +10,7 @@ public class GRNCPError extends Response {
 	
 	@Override
 	public void handle() {
-		// TODO Auto-generated method stub
+		System.out.println(reason);
 
 	}
 

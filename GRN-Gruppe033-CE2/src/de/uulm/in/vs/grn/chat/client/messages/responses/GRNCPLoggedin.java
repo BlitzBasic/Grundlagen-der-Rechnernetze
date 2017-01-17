@@ -7,8 +7,7 @@ public class GRNCPLoggedin extends Response {
 	
 	@Override
 	public void handle() {
-		// TODO Auto-generated method stub
-
+		System.out.println("logged in");
 	}
 
 }

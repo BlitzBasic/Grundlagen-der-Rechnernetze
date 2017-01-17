@@ -7,6 +7,7 @@ import java.net.InetAddress;
 public class GRNCP {
 
 	public static final String PROTOCOL_VERSION = "GRNCP/0.1";
+	public static final long LEASE_TIME = 570000;
 	private static PubListener pubListener;
 	private static DisplayWorker displayWorker;
 	private static CommandController controller;
@@ -87,7 +88,7 @@ public class GRNCP {
 			pubListener = new PubListener(ipAddress, pubSubPort, displayWorker);
 					pubListener.start();
 			// starts a thread that initiates the command connection
-			controller = new CommandController(ipAddress, commandPort, displayWorker, inputReader);
+			controller = new CommandController(ipAddress, commandPort, displayWorker, inputReader, LEASE_TIME);
 					controller.start();
 			return true;
 

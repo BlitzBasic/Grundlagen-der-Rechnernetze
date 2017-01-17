@@ -24,8 +24,8 @@ public class DisplayWorker extends Thread {
 		}
 	}
 
-	public synchronized void addEvent(Event event) {
-		messages.add(event);
+	public synchronized void addDisplayable(Displayable displayable) {
+		messages.add(displayable);
 		notify();
 
 	}
