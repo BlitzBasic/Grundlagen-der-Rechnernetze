@@ -17,7 +17,7 @@ public class GRNCPLogin extends Request {
 
 	@Override
 	public void send(Writer writer) throws IOException {
-		writer.write("LOGIN " + GRNCP.PROTOCOL_VERSION + "\r\nUsername: " + username + "\r\n");
-
+		writer.write("LOGIN " + GRNCP.PROTOCOL_VERSION + "\r\nUsername: " + username + "\r\n\r\n");
+		writer.flush();
 	}
 }

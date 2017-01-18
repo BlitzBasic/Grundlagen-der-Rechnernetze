@@ -7,7 +7,13 @@ public class GRNCPLoggedin extends Response {
 	
 	@Override
 	public void handle() {
-		System.out.println("logged in");
+		//TODO: change
+	}
+
+	@Override
+	public void display() {
+		System.out.println(date + " | You are now logged in.");
+		
 	}
 
 }

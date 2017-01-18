@@ -16,7 +16,7 @@ public class GRNCPPing extends Request {
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write(pingMessage);
-
+		writer.flush();
 	}
 
 }

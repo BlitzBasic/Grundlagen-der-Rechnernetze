@@ -17,4 +17,10 @@ public class GRNCPError extends Response {
 	public String getReason(){
 		return reason;
 	}
+
+	@Override
+	public void display() {
+		System.out.println(date + " | " + reason);
+		
+	}
 }

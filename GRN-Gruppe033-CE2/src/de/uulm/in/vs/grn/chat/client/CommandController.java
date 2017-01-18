@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.util.concurrent.CountDownLatch;
 
 import de.uulm.in.vs.grn.chat.client.messages.SystemMessage;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPLogin;
@@ -19,7 +20,8 @@ public class CommandController extends Thread {
 	
 	public CommandController(InetAddress address, int port, DisplayWorker displayWorker, BufferedReader inputReader, long leaseTime) {
 		super();
-		communicator = new CommandCommunicator(address, port);
+		communicator = new CommandCommunicator(address, port, displayWorker);
+		communicator.start();
 		this.displayWorker = displayWorker;
 		this.inputReader = inputReader;
 		this.connectionKeeper = new ConnectionKeeper(leaseTime, communicator);
@@ -37,13 +39,15 @@ public class CommandController extends Thread {
 					try {
 						String username = inputReader.readLine();
 						communicator.login(username);
-						//TODO: wait for login
+						
 					} catch (IOException e) {
 						System.out.println("Your username couldn't be read");
 					}
 					
 				}
 				
+				
+				//Implement user actions
 
 			}
 

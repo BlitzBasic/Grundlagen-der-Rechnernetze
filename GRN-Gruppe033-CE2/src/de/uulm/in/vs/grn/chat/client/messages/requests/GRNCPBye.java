@@ -16,5 +16,6 @@ public class GRNCPBye extends Request {
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write(byeMessage);
+		writer.flush();
 	}
 }

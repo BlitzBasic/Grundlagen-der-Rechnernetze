@@ -11,4 +11,10 @@ public class GRNCPByebye extends Response {
 
 	}
 
+	@Override
+	public void display() {
+		System.out.println(date + " | You are logged out.");
+		
+	}
+
 }

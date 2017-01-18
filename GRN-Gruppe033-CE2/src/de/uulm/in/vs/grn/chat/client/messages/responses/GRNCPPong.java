@@ -21,6 +21,15 @@ public class GRNCPPong extends Response {
 		return usernames;
 	}
 
+	@Override
+	public void display() {
+		System.out.println(date + " | Currently logged in users:");
+		for(String name : usernames){
+			System.out.println("                      "+name);
+		}
+		
+	}
+
 	
 	
 }

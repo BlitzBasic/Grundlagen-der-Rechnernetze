@@ -11,4 +11,10 @@ public class GRNCPSent extends Response {
 
 	}
 
+	@Override
+	public void display() {
+		System.out.println(date + " | Your message was succesfully sent.");
+		
+	}
+
 }
