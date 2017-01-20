@@ -18,6 +18,7 @@ import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPByebye;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPError;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPExpired;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPLoggedin;
+import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPPong;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPSent;
 import de.uulm.in.vs.grn.chat.client.messages.responses.Response;
 
@@ -61,7 +62,7 @@ public class CommandCommunicator extends Thread {
 				}
 
 				// TODO: rethink
-				while (waitingForLoggedIn) {
+				//while (waitingForLoggedIn) {
 					try {
 
 						String responseString = "";
@@ -126,6 +127,8 @@ public class CommandCommunicator extends Thread {
 									command = "";
 									break;
 								case "PONG":
+									GRNCPPong pongResponse = new GRNCPPong(date, usernames);
+									displayWorker.addDisplayable(pongResponse);
 									// TODO
 									command = "";
 									break;
@@ -151,7 +154,7 @@ public class CommandCommunicator extends Thread {
 						while (GRNCP.initiateConnection())
 							;
 					}
-				}
+				//}
 			}
 
 		} catch (Exception e) {

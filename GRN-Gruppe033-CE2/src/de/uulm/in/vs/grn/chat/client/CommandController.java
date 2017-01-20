@@ -7,7 +7,10 @@ import java.net.InetAddress;
 import java.util.concurrent.CountDownLatch;
 
 import de.uulm.in.vs.grn.chat.client.messages.SystemMessage;
+import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPBye;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPLogin;
+import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPPing;
+import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPSend;
 
 public class CommandController extends Thread {
 
@@ -15,7 +18,7 @@ public class CommandController extends Thread {
 	private CommandCommunicator communicator;
 	private DisplayWorker displayWorker;
 	private BufferedReader inputReader;
-	private ConnectionKeeper connectionKeeper;
+	//private ConnectionKeeper connectionKeeper;
 
 	
 	public CommandController(InetAddress address, int port, DisplayWorker displayWorker, BufferedReader inputReader, long leaseTime) {
@@ -24,7 +27,7 @@ public class CommandController extends Thread {
 		communicator.start();
 		this.displayWorker = displayWorker;
 		this.inputReader = inputReader;
-		this.connectionKeeper = new ConnectionKeeper(leaseTime, communicator);
+		//this.connectionKeeper = new ConnectionKeeper(leaseTime, communicator);
 		active = true;
 	}
 
@@ -46,9 +49,27 @@ public class CommandController extends Thread {
 					
 				}
 				
+				String input = inputReader.readLine();
 				
-				//Implement user actions
-
+				if(input.startsWith("~")){
+					switch(input){
+						case "~logout":
+							communicator.addRequest(new GRNCPBye());
+							break;
+						case "~help":
+							displayWorker.addDisplayable(new SystemMessage("~help      | Displays this help text."));
+							displayWorker.addDisplayable(new SystemMessage("~logout    | Logs you out."));
+							displayWorker.addDisplayable(new SystemMessage("~whoishere | Displays a full list of the users currently connected to the server."));
+							break;
+						case "~whoishere":
+							communicator.addRequest(new GRNCPPing());
+							break;
+						default:
+							displayWorker.addDisplayable(new SystemMessage("Enter \"~help\" to display the full list of commands."));
+					}
+				}else{
+					communicator.addRequest(new GRNCPSend(input));
+				}
 			}
 
 		} catch (Exception e) {
@@ -59,7 +80,7 @@ public class CommandController extends Thread {
 	
 	public void disable(){
 		communicator.disable();
-		connectionKeeper.disable();
+		//connectionKeeper.disable();
 		active = false;
 	}
 
