@@ -18,57 +18,64 @@ public class CommandController extends Thread {
 	private CommandCommunicator communicator;
 	private DisplayWorker displayWorker;
 	private BufferedReader inputReader;
-	//private ConnectionKeeper connectionKeeper;
 
-	
-	public CommandController(InetAddress address, int port, DisplayWorker displayWorker, BufferedReader inputReader, long leaseTime) {
+	public CommandController(InetAddress address, int port, DisplayWorker displayWorker, BufferedReader inputReader,
+			long leaseTime) {
 		super();
-		communicator = new CommandCommunicator(address, port, displayWorker);
+		communicator = new CommandCommunicator(address, port, displayWorker, leaseTime);
 		communicator.start();
 		this.displayWorker = displayWorker;
 		this.inputReader = inputReader;
-		//this.connectionKeeper = new ConnectionKeeper(leaseTime, communicator);
+
 		active = true;
 	}
 
 	public void run() {
 		try {
 
-			
-			
 			while (active) {
-				while(!communicator.isLoggedIn()){
+				while (!communicator.isLoggedIn()) {
 					displayWorker.addDisplayable(new SystemMessage("Please enter a username and press enter!"));
 					try {
 						String username = inputReader.readLine();
 						communicator.login(username);
-						
+
 					} catch (IOException e) {
 						System.out.println("Your username couldn't be read");
 					}
-					
+
 				}
-				
+
 				String input = inputReader.readLine();
-				
-				if(input.startsWith("~")){
-					switch(input){
-						case "~logout":
-							communicator.addRequest(new GRNCPBye());
-							break;
-						case "~help":
-							displayWorker.addDisplayable(new SystemMessage("~help      | Displays this help text."));
-							displayWorker.addDisplayable(new SystemMessage("~logout    | Logs you out."));
-							displayWorker.addDisplayable(new SystemMessage("~whoishere | Displays a full list of the users currently connected to the server."));
-							break;
-						case "~whoishere":
-							communicator.addRequest(new GRNCPPing());
-							break;
-						default:
-							displayWorker.addDisplayable(new SystemMessage("Enter \"~help\" to display the full list of commands."));
+
+				if (input.startsWith("~")) {
+					switch (input) {
+					case "~logout":
+						communicator.addRequest(new GRNCPBye());
+						active = false;
+						break;
+					case "~help":
+						displayWorker.addDisplayable(new SystemMessage("~help      | Displays this help text."));
+						displayWorker.addDisplayable(new SystemMessage("~logout    | Logs you out."));
+						displayWorker.addDisplayable(new SystemMessage(
+								"~whoishere | Displays a full list of the users currently connected to the server."));
+						break;
+					case "~whoishere":
+						communicator.addRequest(new GRNCPPing());
+						break;
+					default:
+						displayWorker.addDisplayable(
+								new SystemMessage("Enter \"~help\" to display the full list of commands."));
 					}
-				}else{
-					communicator.addRequest(new GRNCPSend(input));
+				} else {
+					if (input != "") {
+						while (input.length() > 512) {
+							communicator.addRequest(new GRNCPSend(input.substring(0, 512)));
+							input = input.substring(512, input.length());
+						}
+
+						communicator.addRequest(new GRNCPSend(input));
+					}
 				}
 			}
 
@@ -77,13 +84,12 @@ public class CommandController extends Thread {
 			GRNCP.initiateConnection();
 		}
 	}
-	
-	public void disable(){
+
+	public void disable() {
+		if(communicator!=null)
 		communicator.disable();
-		//connectionKeeper.disable();
+
 		active = false;
 	}
 
-	
-	
 }
