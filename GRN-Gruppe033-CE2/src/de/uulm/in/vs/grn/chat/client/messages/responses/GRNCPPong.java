@@ -2,6 +2,11 @@ package de.uulm.in.vs.grn.chat.client.messages.responses;
 
 import java.util.ArrayList;
 
+/**
+ * represents a pong response
+ * @author Marius
+ *
+ */
 public class GRNCPPong extends Response {
 
 	private final ArrayList<String> usernames;

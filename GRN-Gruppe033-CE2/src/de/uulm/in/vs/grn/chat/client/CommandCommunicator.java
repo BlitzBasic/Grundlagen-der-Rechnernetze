@@ -21,6 +21,13 @@ import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPLoggedin;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPPong;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPSent;
 
+/**
+ * this class initiates a command connection and is capable of sending and
+ * receiving messages in their original order
+ * 
+ * @author Marius
+ *
+ */
 public class CommandCommunicator extends Thread {
 
 	private final LinkedBlockingQueue<Request> requests;
@@ -109,6 +116,7 @@ public class CommandCommunicator extends Thread {
 								displayWorker.addDisplayable(expiredResponse);
 								command = "";
 								loginSignal.countDown();
+								loggedIn = false;
 								break;
 							case "SENT":
 								if (!loggedIn)
@@ -119,11 +127,10 @@ public class CommandCommunicator extends Thread {
 								command = "";
 								break;
 							case "BYEBYE":
-								if (!loggedIn)
-									break;
 								GRNCPByebye byebyeResponse = new GRNCPByebye(date);
 								displayWorker.addDisplayable(byebyeResponse);
 								loggedIn = false;
+								active = false;
 								GRNCP.initiateConnection();
 								break;
 							case "PONG":
@@ -186,6 +193,7 @@ public class CommandCommunicator extends Thread {
 			loginSignal = new CountDownLatch(1);
 			addRequest(new GRNCPLogin(username));
 			try {
+				//wait for loggedin response
 				loginSignal.await();
 
 			} catch (InterruptedException e) {

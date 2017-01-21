@@ -1,5 +1,10 @@
 package de.uulm.in.vs.grn.chat.client.messages.responses;
 
+/**
+ * represents a sent response
+ * @author Marius
+ *
+ */
 public class GRNCPSent extends Response {
 	public GRNCPSent(String date){
 		super(date);

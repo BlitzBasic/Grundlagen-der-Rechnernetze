@@ -1,5 +1,10 @@
 package de.uulm.in.vs.grn.chat.client.messages.events;
 
+/**
+ * represents an incoming message
+ * @author Marius
+ *
+ */
 public class GRNCPMessageEvent extends Event {
 
 	private final String username;

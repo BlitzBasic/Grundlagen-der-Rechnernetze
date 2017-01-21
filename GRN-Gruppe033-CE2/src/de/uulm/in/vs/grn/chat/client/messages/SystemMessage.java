@@ -1,5 +1,10 @@
 package de.uulm.in.vs.grn.chat.client.messages;
 
+/**
+ * Message type to represent internal messages
+ * @author Marius
+ *
+ */
 public class SystemMessage implements Displayable {
 
 	private String message;

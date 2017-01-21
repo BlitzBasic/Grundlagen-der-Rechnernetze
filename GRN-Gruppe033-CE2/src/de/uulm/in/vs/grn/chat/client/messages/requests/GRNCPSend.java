@@ -5,6 +5,11 @@ import java.io.Writer;
 
 import de.uulm.in.vs.grn.chat.client.GRNCP;
 
+/**
+ * represents a send request
+ * @author Marius
+ *
+ */
 public class GRNCPSend extends Request {
 	
 	private final String text;

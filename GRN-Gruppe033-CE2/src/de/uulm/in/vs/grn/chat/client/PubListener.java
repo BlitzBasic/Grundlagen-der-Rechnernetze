@@ -10,6 +10,12 @@ import de.uulm.in.vs.grn.chat.client.messages.events.GRNCPMessageEvent;
 import de.uulm.in.vs.grn.chat.client.messages.SystemMessage;
 import de.uulm.in.vs.grn.chat.client.messages.events.GRNCPEvent;
 
+/**
+ * This class initiates a pub/sub connection and receives all incoming messages
+ * 
+ * @author Marius
+ *
+ */
 public class PubListener extends Thread {
 
 	private InetAddress address;

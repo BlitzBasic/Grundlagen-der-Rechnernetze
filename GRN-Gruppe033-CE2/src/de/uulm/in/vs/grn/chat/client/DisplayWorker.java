@@ -4,6 +4,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import de.uulm.in.vs.grn.chat.client.messages.Displayable;
 
+/**
+ * This class can be used to display all messages in their original order
+ * @author Marius
+ *
+ */
 public class DisplayWorker extends Thread {
 
 	private LinkedBlockingQueue<Displayable> messages;

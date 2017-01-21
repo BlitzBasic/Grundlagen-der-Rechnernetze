@@ -5,6 +5,11 @@ import java.io.Writer;
 
 import de.uulm.in.vs.grn.chat.client.GRNCP;
 
+/**
+ * represents a login request
+ * @author Marius
+ *
+ */
 public class GRNCPLogin extends Request {
 
 	private final String username;

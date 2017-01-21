@@ -9,6 +9,11 @@ import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPBye;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPPing;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPSend;
 
+/**
+ * This class listens to the command line an handles user input
+ * @author Marius
+ *
+ */
 public class CommandController extends Thread {
 
 	private boolean active = false;
@@ -27,6 +32,7 @@ public class CommandController extends Thread {
 		active = true;
 	}
 
+	@Override
 	public void run() {
 		try {
 

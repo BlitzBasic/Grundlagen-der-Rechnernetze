@@ -1,5 +1,10 @@
 package de.uulm.in.vs.grn.chat.client.messages.events;
 
+/**
+ * represents a chat event
+ * @author Marius
+ *
+ */
 public class GRNCPEvent extends Event {
 
 	private final String description;
