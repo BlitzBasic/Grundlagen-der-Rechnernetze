@@ -5,12 +5,6 @@ public class GRNCPExpired extends Response {
 		super(date);
 	}
 
-	@Override
-	public void handle() {
-		//TODO: change
-		display();
-
-	}
 
 	@Override
 	public void display() {

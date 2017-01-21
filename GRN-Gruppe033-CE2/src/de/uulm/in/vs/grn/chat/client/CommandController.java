@@ -2,13 +2,10 @@ package de.uulm.in.vs.grn.chat.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.util.concurrent.CountDownLatch;
 
 import de.uulm.in.vs.grn.chat.client.messages.SystemMessage;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPBye;
-import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPLogin;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPPing;
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPSend;
 
@@ -88,7 +85,6 @@ public class CommandController extends Thread {
 	public void disable() {
 		if(communicator!=null)
 		communicator.disable();
-
 		active = false;
 	}
 

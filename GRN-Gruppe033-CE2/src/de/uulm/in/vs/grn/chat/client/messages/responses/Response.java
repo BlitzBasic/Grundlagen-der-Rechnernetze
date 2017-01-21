@@ -11,7 +11,6 @@ public abstract class Response implements GRNCPMessage, Displayable {
 		this.date = date;
 	}
 
-	public abstract void handle();
 
 	public String getDate() {
 		return date;

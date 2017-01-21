@@ -11,11 +11,6 @@ public class GRNCPPong extends Response {
 		this.usernames = usernames;
 	}
 
-	@Override
-	public void handle() {
-		// TODO Auto-generated method stub
-
-	}
 
 	public ArrayList<String> getUsernames() {
 		return usernames;

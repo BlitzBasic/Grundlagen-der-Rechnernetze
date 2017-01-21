@@ -5,10 +5,6 @@ public class GRNCPLoggedin extends Response {
 		super(date);
 	}
 	
-	@Override
-	public void handle() {
-		//TODO: change
-	}
 
 	@Override
 	public void display() {

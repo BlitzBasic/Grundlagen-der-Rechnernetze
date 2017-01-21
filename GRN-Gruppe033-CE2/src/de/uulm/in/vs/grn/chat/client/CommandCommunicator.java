@@ -53,21 +53,16 @@ public class CommandCommunicator extends Thread {
 			while (active) {
 				try {
 					Request request = requests.take();
-					System.out.println("Took request");
 					request.send(commandSocketWriter);
 
 				} catch (InterruptedException e) {
 					// nothing
-					System.out.println("interrupt waiting");
 				} catch (Exception e) {
 					System.err.println("Request could not be sent");
 					e.printStackTrace(System.err);
 				}
 
-				// TODO: rethink
-				// while (waitingForLoggedIn) {
 				try {
-					System.out.println("analysing response");
 					String responseString = "";
 
 					String command = "";
@@ -78,7 +73,6 @@ public class CommandCommunicator extends Thread {
 
 					do {
 						responseString = commandSocketReader.readLine();
-						System.out.println(responseString);
 						if (responseString.split(" ")[0].equals("GRNCP/0.1")) {
 							command = responseString.split(" ")[1];
 						} else if ((field = responseString.split(": ")).length > 1) {
@@ -96,20 +90,16 @@ public class CommandCommunicator extends Thread {
 						} else if (responseString.equals("")) {
 							switch (command) {
 							case "LOGGEDIN":
-								System.out.println("Logging in");
 								GRNCPLoggedin loggedinResponse = new GRNCPLoggedin(date);
-								loggedinResponse.handle();
 								displayWorker.addDisplayable(loggedinResponse);
 								loggedIn = true;
 								connectionKeeper = new ConnectionKeeper(leaseTime, this);
 								connectionKeeper.start();
 								command = "";
 								loginSignal.countDown();
-								System.out.println("Logged in");
 								break;
 							case "ERROR":
 								GRNCPError errorResponse = new GRNCPError(date, reason);
-								errorResponse.handle();
 								displayWorker.addDisplayable(errorResponse);
 								command = "";
 								loginSignal.countDown();
@@ -117,13 +107,14 @@ public class CommandCommunicator extends Thread {
 							case "EXPIRED":
 								GRNCPExpired expiredResponse = new GRNCPExpired(date);
 								displayWorker.addDisplayable(expiredResponse);
-								// TODO test
 								command = "";
 								loginSignal.countDown();
 								break;
 							case "SENT":
 								if (!loggedIn)
 									break;
+								// not used yet, may be used to inform user
+								@SuppressWarnings("unused")
 								GRNCPSent sentResponse = new GRNCPSent(date);
 								command = "";
 								break;
@@ -134,7 +125,6 @@ public class CommandCommunicator extends Thread {
 								displayWorker.addDisplayable(byebyeResponse);
 								loggedIn = false;
 								GRNCP.initiateConnection();
-//								command = "";
 								break;
 							case "PONG":
 								if (!loggedIn)
@@ -144,7 +134,6 @@ public class CommandCommunicator extends Thread {
 								command = "";
 								break;
 							default:
-								System.out.println("invalid Message");
 							}
 							responseString = null;
 						}
@@ -167,7 +156,6 @@ public class CommandCommunicator extends Thread {
 					while (GRNCP.initiateConnection())
 						;
 				}
-				// }
 			}
 
 		} catch (Exception e) {
@@ -184,8 +172,8 @@ public class CommandCommunicator extends Thread {
 
 	public void disable() {
 		active = false;
-		if(connectionKeeper!=null)
-		connectionKeeper.disable();
+		if (connectionKeeper != null)
+			connectionKeeper.disable();
 	}
 
 	public boolean isLoggedIn() {

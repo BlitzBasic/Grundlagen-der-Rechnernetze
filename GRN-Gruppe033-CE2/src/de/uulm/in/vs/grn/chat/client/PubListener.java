@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import de.uulm.in.vs.grn.chat.client.messages.events.GRNCPMessageEvent;
+import de.uulm.in.vs.grn.chat.client.messages.SystemMessage;
 import de.uulm.in.vs.grn.chat.client.messages.events.GRNCPEvent;
 
 public class PubListener extends Thread {
@@ -33,7 +34,7 @@ public class PubListener extends Thread {
 		// tries to establish a connection
 		try (Socket pubSocket = new Socket(address, port);
 				BufferedReader pubReader = new BufferedReader(new InputStreamReader(pubSocket.getInputStream()))) {
-			System.out.println("You are connected pub/sub!");
+			displayWorker.addDisplayable(new SystemMessage("You are connected pub/sub!"));
 
 			while (active) {
 				try {
@@ -48,7 +49,6 @@ public class PubListener extends Thread {
 					String[] field;
 					do {
 						response = pubReader.readLine();
-						// System.out.println(response);
 						if (response.split(" ")[0].equals("GRNCP/0.1")) {
 							command = response.split(" ")[1];
 						} else if ((field = response.split(": ")).length > 1) {
@@ -81,10 +81,10 @@ public class PubListener extends Thread {
 					// do nothing
 				} catch (NullPointerException e) {
 					// do nothing
-				} catch (SocketException e){
+				} catch (SocketException e) {
 					active = false;
 					System.out.println("Connection lost, please reconnect");
-					while(GRNCP.initiateConnection())
+					while (GRNCP.initiateConnection())
 						;
 				}
 
@@ -92,14 +92,13 @@ public class PubListener extends Thread {
 
 		} catch (Exception e) {
 			System.out.println("An exception occured, please reconnect.");
-			displayWorker.disable();
-			while(GRNCP.initiateConnection())
-			;
+			while (GRNCP.initiateConnection())
+				;
 		}
 
 	}
-	
-	public void disable(){
+
+	public void disable() {
 		active = false;
 	}
 

@@ -8,11 +8,6 @@ public class GRNCPError extends Response {
 		this.reason = reason;
 	}
 	
-	@Override
-	public void handle() {
-		System.out.println(reason);
-
-	}
 
 	public String getReason(){
 		return reason;

@@ -18,14 +18,14 @@ public class DisplayWorker extends Thread {
 	@Override
 	public void run() {
 		while (active) {
-			
+
 			try {
 				Displayable message = messages.take();
 				message.display();
 			} catch (InterruptedException e) {
-				//nothing
+				// nothing
 			}
-			
+
 		}
 	}
 
@@ -33,8 +33,7 @@ public class DisplayWorker extends Thread {
 		messages.add(displayable);
 	}
 
-	
-	public void disable(){
+	public void disable() {
 		active = false;
 	}
 

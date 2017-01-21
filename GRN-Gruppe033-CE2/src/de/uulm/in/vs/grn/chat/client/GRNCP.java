@@ -16,6 +16,7 @@ public class GRNCP {
 	public static void main(String[] args) {
 
 		// This client is command line based
+		// Use ~help to to list commands
 
 		System.out.println("Welcome to GRNCP!");
 
