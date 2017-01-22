@@ -27,7 +27,7 @@ public class ConnectionKeeper extends Thread {
 	public void run() {
 		while (active) {
 			try {
-				communicator.addRequest(new GRNCPPing());
+				communicator.addRequest(new GRNCPPing(false));
 				sleep(leaseTime);
 			} catch (InterruptedException e) {
 				// nothing

@@ -74,7 +74,7 @@ public class CommandController extends Thread {
 								"~whoishere | Displays a full list of the users currently connected to the server."));
 						break;
 					case "~whoishere":
-						communicator.addRequest(new GRNCPPing());
+						communicator.addRequest(new GRNCPPing(true));
 						break;
 					default:
 						displayWorker.addDisplayable(

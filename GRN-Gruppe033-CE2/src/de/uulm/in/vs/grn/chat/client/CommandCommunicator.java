@@ -13,6 +13,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPLogin;
+import de.uulm.in.vs.grn.chat.client.messages.requests.GRNCPPing;
 import de.uulm.in.vs.grn.chat.client.messages.requests.Request;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPByebye;
 import de.uulm.in.vs.grn.chat.client.messages.responses.GRNCPError;
@@ -41,10 +42,12 @@ public class CommandCommunicator extends Thread {
 	private final long leaseTime;
 
 	/**
-	 * Constructor to set the address and port at which to send commands, while at the same time initializing a 
-	 * request queue to queue all the commands, a active boolean which indicates if it can currently be used, a 
-	 * displayWorker that display everything it's told to display in the command line and a leaseTime which 
-	 * indicates how long the Server keeps the connection alive.
+	 * Constructor to set the address and port at which to send commands, while
+	 * at the same time initializing a request queue to queue all the commands,
+	 * a active boolean which indicates if it can currently be used, a
+	 * displayWorker that display everything it's told to display in the command
+	 * line and a leaseTime which indicates how long the Server keeps the
+	 * connection alive.
 	 * 
 	 */
 	public CommandCommunicator(InetAddress address, int port, DisplayWorker displayWorker, long leaseTime) {
@@ -58,8 +61,8 @@ public class CommandCommunicator extends Thread {
 	}
 
 	/**
-	 * method to deal with all useable commands if a wrong command is used it just ignores that request to send a
-	 * command to the Server.
+	 * method to deal with all useable commands if a wrong command is used it
+	 * just ignores that request to send a command to the Server.
 	 */
 	public void run() {
 		try (Socket commandSocket = new Socket(address, port);
@@ -69,8 +72,9 @@ public class CommandCommunicator extends Thread {
 						new OutputStreamWriter(commandSocket.getOutputStream()))) {
 
 			while (active) {
+				Request request = null;
 				try {
-					Request request = requests.take();
+					request = requests.take();
 					request.send(commandSocketWriter);
 
 				} catch (InterruptedException e) {
@@ -148,7 +152,12 @@ public class CommandCommunicator extends Thread {
 								if (!loggedIn)
 									break;
 								GRNCPPong pongResponse = new GRNCPPong(date, usernames);
-								displayWorker.addDisplayable(pongResponse);
+								// check if Ping was triggered by ~whoishere or
+								// by connection keeper.
+								// Only print user list if requested
+								if (request instanceof GRNCPPing && ((GRNCPPing) request).isUserListRequested()) {
+									displayWorker.addDisplayable(pongResponse);
+								}
 								command = "";
 								break;
 							default:
@@ -184,7 +193,9 @@ public class CommandCommunicator extends Thread {
 	}
 
 	/**
-	 * add any kind of command request to the request queue or a login request if the client is not yet logged in
+	 * add any kind of command request to the request queue or a login request
+	 * if the client is not yet logged in
+	 * 
 	 * @param request
 	 */
 	public void addRequest(Request request) {
@@ -193,7 +204,8 @@ public class CommandCommunicator extends Thread {
 	}
 
 	/**
-	 * disables the connectionKeeper which will result in a disconnect after the leaseTime is over
+	 * disables the connectionKeeper which will result in a disconnect after the
+	 * leaseTime is over
 	 */
 	public void disable() {
 		active = false;
@@ -203,6 +215,7 @@ public class CommandCommunicator extends Thread {
 
 	/**
 	 * returns a boolean which indicates wheter the Client is logged in or not
+	 * 
 	 * @return
 	 */
 	public boolean isLoggedIn() {
@@ -211,6 +224,7 @@ public class CommandCommunicator extends Thread {
 
 	/**
 	 * creates a login request to login the user and wait til he is logged in
+	 * 
 	 * @param username
 	 */
 	public void login(String username) {
@@ -219,7 +233,7 @@ public class CommandCommunicator extends Thread {
 			loginSignal = new CountDownLatch(1);
 			addRequest(new GRNCPLogin(username));
 			try {
-				//wait for loggedin response
+				// wait for loggedin response
 				loginSignal.await();
 
 			} catch (InterruptedException e) {

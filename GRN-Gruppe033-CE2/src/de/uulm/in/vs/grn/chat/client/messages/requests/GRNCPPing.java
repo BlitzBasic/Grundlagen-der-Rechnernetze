@@ -7,24 +7,35 @@ import de.uulm.in.vs.grn.chat.client.GRNCP;
 
 /**
  * represents a login request
+ * 
  * @author Marius
  *
  */
 public class GRNCPPing extends Request {
 
 	private final String pingMessage = "PING " + GRNCP.PROTOCOL_VERSION + "\r\n\r\n";
+	private boolean userListRequested;
 
 	/**
 	 * creates a ping request
+	 * 
+	 * @param userListRequested
+	 *            signalizes the communicator to print list of active users if
+	 *            true
 	 */
-	public GRNCPPing() {
+	public GRNCPPing(boolean userListRequested) {
 		super();
+		this.userListRequested = userListRequested;
 	}
 
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write(pingMessage);
 		writer.flush();
+	}
+
+	public boolean isUserListRequested() {
+		return userListRequested;
 	}
 
 }
