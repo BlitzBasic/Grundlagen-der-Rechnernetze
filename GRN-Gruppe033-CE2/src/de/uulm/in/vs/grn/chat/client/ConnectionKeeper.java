@@ -41,6 +41,7 @@ public class ConnectionKeeper extends Thread {
 	 */
 	public void disable() {
 		active = false;
+		this.interrupt();
 	}
 
 }

@@ -112,6 +112,7 @@ public class PubListener extends Thread {
 	 */
 	public void disable() {
 		active = false;
+		this.interrupt();
 	}
 
 }

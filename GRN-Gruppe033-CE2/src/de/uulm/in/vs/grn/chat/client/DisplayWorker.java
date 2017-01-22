@@ -50,6 +50,7 @@ public class DisplayWorker extends Thread {
 	 */
 	public void disable() {
 		active = false;
+		this.interrupt();
 	}
 
 }

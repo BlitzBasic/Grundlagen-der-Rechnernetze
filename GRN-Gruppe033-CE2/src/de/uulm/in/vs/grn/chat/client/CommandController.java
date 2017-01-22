@@ -105,6 +105,7 @@ public class CommandController extends Thread {
 		if(communicator!=null)
 		communicator.disable();
 		active = false;
+		this.interrupt();
 	}
 
 }

@@ -152,6 +152,7 @@ public class CommandCommunicator extends Thread {
 								if (!loggedIn)
 									break;
 								GRNCPPong pongResponse = new GRNCPPong(date, usernames);
+								
 								// check if Ping was triggered by ~whoishere or
 								// by connection keeper.
 								// Only print user list if requested
@@ -211,6 +212,7 @@ public class CommandCommunicator extends Thread {
 		active = false;
 		if (connectionKeeper != null)
 			connectionKeeper.disable();
+		this.interrupt();
 	}
 
 	/**
