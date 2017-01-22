@@ -22,7 +22,7 @@ public class ConnectionKeeper extends Thread {
 	}
 
 	/**
-	 * sends Ping every do often to ensure the Server won't close the connection due to inactivity
+	 * sends Ping periodically to ensure the Server won't close the connection due to inactivity
 	 */
 	public void run() {
 		while (active) {

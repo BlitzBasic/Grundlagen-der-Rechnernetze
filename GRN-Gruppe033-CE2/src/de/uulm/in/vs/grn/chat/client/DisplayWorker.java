@@ -21,7 +21,7 @@ public class DisplayWorker extends Thread {
 	}
 	
 	/**
-	 * starts the thread that displays all messages
+	 * displays all messages
 	 */
 	@Override
 	public void run() {

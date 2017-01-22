@@ -13,6 +13,9 @@ public class SystemMessage implements Displayable {
 		this.message=message;
 	}
 
+	/**
+	 * print the system message
+	 */
 	@Override
 	public void display() {
 		System.out.println(message);

@@ -98,6 +98,9 @@ public class CommandController extends Thread {
 		}
 	}
 
+	/**
+	 * disables controller and connected communicator
+	 */
 	public void disable() {
 		if(communicator!=null)
 		communicator.disable();

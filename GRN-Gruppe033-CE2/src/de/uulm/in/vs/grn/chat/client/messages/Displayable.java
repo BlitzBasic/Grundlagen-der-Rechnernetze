@@ -7,5 +7,8 @@ package de.uulm.in.vs.grn.chat.client.messages;
  *
  */
 public interface Displayable {
+	/**
+	 * allows to call display in every implementing class
+	 */
 	public void display();
 }
