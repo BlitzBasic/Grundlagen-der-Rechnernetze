@@ -21,6 +21,13 @@ public class CommandController extends Thread {
 	private DisplayWorker displayWorker;
 	private BufferedReader inputReader;
 
+	/**
+	 * Constructor to set the address and port at which to send commands, while at the same time initializing a 
+	 * displayWorker that display everything it's told to display in the command line, a Buffered Reader to 
+	 * read user inputs and a leaseTime which 
+	 * indicates how long the Server keeps the connection alive.
+	 * 
+	 */
 	public CommandController(InetAddress address, int port, DisplayWorker displayWorker, BufferedReader inputReader,
 			long leaseTime) {
 		super();
@@ -32,6 +39,9 @@ public class CommandController extends Thread {
 		active = true;
 	}
 
+	/**
+	 * runs the command controller which takes user inputs that display things, that show information, or to log out
+	 */
 	@Override
 	public void run() {
 		try {

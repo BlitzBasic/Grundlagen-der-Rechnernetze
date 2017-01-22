@@ -18,6 +18,9 @@ public class GRNCPError extends Response {
 		return reason;
 	}
 
+	/**
+	 * displays the date of the Error response and why it occurred
+	 */
 	@Override
 	public void display() {
 		System.out.println(date + " | " + reason);

@@ -14,7 +14,10 @@ public class GRNCPSend extends Request {
 	
 	private final String text;
 	
-	
+	/**
+	 * creates a send request to be sent to the server
+	 * @param text
+	 */
 	public GRNCPSend(String text){
 		super();
 		this.text = text;

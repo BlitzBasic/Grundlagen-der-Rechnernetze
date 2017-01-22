@@ -14,7 +14,10 @@ public class GRNCPLogin extends Request {
 
 	private final String username;
 
-
+	/**
+	 * creates a login request including the username
+	 * @param username
+	 */
 	public GRNCPLogin(String username) {
 		super();
 		this.username = username;

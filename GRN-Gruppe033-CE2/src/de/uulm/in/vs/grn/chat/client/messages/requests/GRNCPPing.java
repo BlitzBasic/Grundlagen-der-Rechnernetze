@@ -14,6 +14,9 @@ public class GRNCPPing extends Request {
 
 	private final String pingMessage = "PING " + GRNCP.PROTOCOL_VERSION + "\r\n\r\n";
 
+	/**
+	 * creates a ping request
+	 */
 	public GRNCPPing() {
 		super();
 	}

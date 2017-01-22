@@ -21,6 +21,9 @@ public class ConnectionKeeper extends Thread {
 
 	}
 
+	/**
+	 * sends Ping every do often to ensure the Server won't close the connection due to inactivity
+	 */
 	public void run() {
 		while (active) {
 			try {
@@ -33,6 +36,9 @@ public class ConnectionKeeper extends Thread {
 
 	}
 
+	/**
+	 * disables the connection keeper
+	 */
 	public void disable() {
 		active = false;
 	}

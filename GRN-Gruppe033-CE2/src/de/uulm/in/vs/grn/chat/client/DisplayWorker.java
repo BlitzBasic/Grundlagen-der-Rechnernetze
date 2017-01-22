@@ -19,7 +19,10 @@ public class DisplayWorker extends Thread {
 		messages = new LinkedBlockingQueue<Displayable>();
 		active = true;
 	}
-
+	
+	/**
+	 * starts the thread that displays all messages
+	 */
 	@Override
 	public void run() {
 		while (active) {
@@ -34,10 +37,17 @@ public class DisplayWorker extends Thread {
 		}
 	}
 
+	/**
+	 * adds elements to the message queue that are to be displayed
+	 * @param displayable
+	 */
 	public void addDisplayable(Displayable displayable) {
 		messages.add(displayable);
 	}
 
+	/**
+	 * disables the DisplayWorker
+	 */
 	public void disable() {
 		active = false;
 	}

@@ -10,6 +10,9 @@ public class GRNCPByebye extends Response {
 		super(date);
 	}
 
+	/**
+	 * displays any Byebye response the client gets from the server
+	 */
 	@Override
 	public void display() {
 		System.out.println(date + " | You are logged out.");

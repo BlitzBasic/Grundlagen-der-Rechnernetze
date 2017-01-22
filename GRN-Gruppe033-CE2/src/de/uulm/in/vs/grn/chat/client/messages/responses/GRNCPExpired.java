@@ -10,7 +10,9 @@ public class GRNCPExpired extends Response {
 		super(date);
 	}
 
-
+	/**
+	 * displays the expiration date and that the connection has expired
+	 */
 	@Override
 	public void display() {
 		System.out.println(date + " | Your connection has expired, please re-login.");

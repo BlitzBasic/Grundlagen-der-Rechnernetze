@@ -32,6 +32,9 @@ public class PubListener extends Thread {
 
 	}
 
+	/**
+	 * starts the thread that recieves all the Server messages and handle every kind differently
+	 */
 	@Override
 	public void run() {
 
@@ -104,6 +107,9 @@ public class PubListener extends Thread {
 
 	}
 
+	/**
+	 * Disables the PubListener
+	 */
 	public void disable() {
 		active = false;
 	}

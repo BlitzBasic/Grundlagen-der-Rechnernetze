@@ -10,6 +10,9 @@ public class GRNCPSent extends Response {
 		super(date);
 	}
 	
+	/**
+	 * displays the response sent after sending a message
+	 */
 	@Override
 	public void display() {
 		System.out.println(date + " | Your message was succesfully sent.");

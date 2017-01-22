@@ -16,11 +16,17 @@ public class GRNCPPong extends Response {
 		this.usernames = usernames;
 	}
 
-
+	/**
+	 * takes all usernames from the given response and puts them into an ArrayList
+	 * @return
+	 */
 	public ArrayList<String> getUsernames() {
 		return usernames;
 	}
 
+	/**
+	 * displays the date and all currently logged in users in chat
+	 */
 	@Override
 	public void display() {
 		System.out.println(date + " | Currently logged in users:");

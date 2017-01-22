@@ -40,6 +40,13 @@ public class CommandCommunicator extends Thread {
 	private ConnectionKeeper connectionKeeper;
 	private final long leaseTime;
 
+	/**
+	 * Constructor to set the address and port at which to send commands, while at the same time initializing a 
+	 * request queue to queue all the commands, a active boolean which indicates if it can currently be used, a 
+	 * displayWorker that display everything it's told to display in the command line and a leaseTime which 
+	 * indicates how long the Server keeps the connection alive.
+	 * 
+	 */
 	public CommandCommunicator(InetAddress address, int port, DisplayWorker displayWorker, long leaseTime) {
 		super();
 		this.address = address;
@@ -50,6 +57,10 @@ public class CommandCommunicator extends Thread {
 		this.leaseTime = leaseTime;
 	}
 
+	/**
+	 * method to deal with all useable commands if a wrong command is used it just ignores that request to send a
+	 * command to the Server.
+	 */
 	public void run() {
 		try (Socket commandSocket = new Socket(address, port);
 				BufferedReader commandSocketReader = new BufferedReader(
@@ -172,21 +183,36 @@ public class CommandCommunicator extends Thread {
 
 	}
 
+	/**
+	 * add any kind of command request to the request queue or a login request if the client is not yet logged in
+	 * @param request
+	 */
 	public void addRequest(Request request) {
 		if (loggedIn || (request instanceof GRNCPLogin))
 			requests.add(request);
 	}
 
+	/**
+	 * disables the connectionKeeper which will result in a disconnect after the leaseTime is over
+	 */
 	public void disable() {
 		active = false;
 		if (connectionKeeper != null)
 			connectionKeeper.disable();
 	}
 
+	/**
+	 * returns a boolean which indicates wheter the Client is logged in or not
+	 * @return
+	 */
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
 
+	/**
+	 * creates a login request to login the user and wait til he is logged in
+	 * @param username
+	 */
 	public void login(String username) {
 		if (!loggedIn) {
 

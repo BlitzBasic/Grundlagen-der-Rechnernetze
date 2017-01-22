@@ -10,7 +10,9 @@ public class GRNCPLoggedin extends Response {
 		super(date);
 	}
 	
-
+	/**
+	 * displays the login date and that the login was successful
+	 */
 	@Override
 	public void display() {
 		System.out.println(date + " | You are now logged in.");

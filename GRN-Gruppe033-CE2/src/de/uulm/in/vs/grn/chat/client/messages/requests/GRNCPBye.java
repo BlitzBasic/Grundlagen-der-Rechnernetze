@@ -14,10 +14,14 @@ public class GRNCPBye extends Request {
 	
 	private final String byeMessage = "BYE " + GRNCP.PROTOCOL_VERSION + "\r\n\r\n";
 	
+	/**
+	 * sends a disconnect request to the server
+	 */
 	public GRNCPBye() {
 		super();
 	}
 
+	
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write(byeMessage);
