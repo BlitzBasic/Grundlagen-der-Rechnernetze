@@ -1,20 +1,39 @@
 package de.uulm.in.vs.grn.chat.server;
 
+import java.io.IOException;
+
+import de.uulm.in.vs.grn.chat.server.command.CommandAcceptor;
+import de.uulm.in.vs.grn.chat.server.pubsub.PubSubAcceptor;
+
 /**
  * main class to start the GRNCP chat server
+ * 
  * @author Marius
  *
  */
 public class GRNCPServer {
 
 	public static final String PROTOCOL_VERSION = "GRNCP/0.1";
-	public static final long LEASE_TIME = 570000;
-	
+	public static final int COMMAND_PORT = 8122;
+	public static final int PUB_SUB_PORT = 8123;
 
 	public static void main(String[] args) {
-		
-		
+
+		try {
+			startServer(COMMAND_PORT, PUB_SUB_PORT);
+		} catch (IOException e) {
+			System.err.println("Couldn't start server");
+			e.printStackTrace();
+		}
+
 	}
 
+	public static void startServer(int commandPort, int pubSubPort) throws IOException {
+
+		PubSubHandlerGroup pubSubHandlerGroup = new PubSubHandlerGroup();
+		PubSubAcceptor pubSubAcceptor = new PubSubAcceptor(pubSubPort, pubSubHandlerGroup);
+		CommandAcceptor commandAcceptor = new CommandAcceptor(commandPort, pubSubHandlerGroup);
+
+	}
 
 }

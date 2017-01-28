@@ -1,5 +1,8 @@
 package de.uulm.in.vs.grn.chat.server.messages.events;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * represents a chat event
  * @author Marius
@@ -35,6 +38,13 @@ public class GRNCPEvent extends Event {
 	 */
 	public String getDescription() {
 		return description;
+	}
+
+
+	@Override
+	public void send(Writer writer) throws IOException {
+		// TODO Peter write message
+		
 	}
 	
 	

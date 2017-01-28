@@ -1,5 +1,7 @@
 package de.uulm.in.vs.grn.chat.server.messages.responses;
 
+import java.io.Writer;
+
 import de.uulm.in.vs.grn.chat.server.messages.Displayable;
 import de.uulm.in.vs.grn.chat.server.messages.GRNCPMessage;
 
@@ -22,6 +24,11 @@ public abstract class Response implements GRNCPMessage, Displayable {
 	 */
 	public String getDate() {
 		return date;
+	}
+	
+	@Override
+	public void send(Writer writer){
+		
 	}
 	
 	

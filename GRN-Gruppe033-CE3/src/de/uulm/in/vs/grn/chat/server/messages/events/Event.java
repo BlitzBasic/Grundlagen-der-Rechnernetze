@@ -28,5 +28,7 @@ public abstract class Event implements GRNCPMessage, Displayable {
 	public String getDate() {
 		return date;
 	}
+	
+
 
 }
