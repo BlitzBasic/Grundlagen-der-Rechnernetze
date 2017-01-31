@@ -43,8 +43,12 @@ public class GRNCPEvent extends Event {
 
 	@Override
 	public void send(Writer writer) throws IOException {
-		// TODO Peter write message
-		
+		try {
+			writer.write("GRNCP /0.1 EVENT\r\nDate : " + date + "\r\nDescription : " + description + "\r\n\r\n");
+			writer.flush();
+		} catch (IOException e) {
+			System.out.println("IOException occured while trying to send package.");
+		}		
 	}
 	
 	

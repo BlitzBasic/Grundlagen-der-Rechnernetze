@@ -9,9 +9,9 @@ import de.uulm.in.vs.grn.chat.server.PubSubHandlerGroup;
 
 public class PubSubAcceptor implements Runnable {
 
-	ServerSocket pubSubSocket;
-	PubSubHandlerGroup pubSubHandlerGroup;
-	boolean active = false;
+	private ServerSocket pubSubSocket;
+	private PubSubHandlerGroup pubSubHandlerGroup;
+	private boolean active = false;
 	
 	public PubSubAcceptor(int port, PubSubHandlerGroup pubSubHandlerGroup) throws IOException {
 		super();
@@ -30,7 +30,6 @@ public class PubSubAcceptor implements Runnable {
 				pubSubHandlerGroup.addHandler(handler);
 				pool.submit(handler);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

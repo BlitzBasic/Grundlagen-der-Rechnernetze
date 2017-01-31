@@ -11,9 +11,9 @@ import de.uulm.in.vs.grn.chat.server.messages.events.Event;
 
 public class PubSubHandler implements Runnable {
 
-	Socket socket;
-	boolean active = false;
-	BlockingQueue<Event> events;
+	private Socket socket;
+	private boolean active = false;
+	private BlockingQueue<Event> events;
 	
 	public PubSubHandler(Socket socket) {
 		this.socket = socket;
@@ -30,13 +30,13 @@ public class PubSubHandler implements Runnable {
 				event.send(writer);
 				
 			} catch (InterruptedException e) {
-				// TODO: handle exception
+				
 			} catch (IOException e){
 				System.err.println("Message couldn't be sent");
 			}
 		}
 		}catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 	}
 

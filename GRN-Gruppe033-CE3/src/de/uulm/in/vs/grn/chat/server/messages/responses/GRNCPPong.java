@@ -1,5 +1,7 @@
 package de.uulm.in.vs.grn.chat.server.messages.responses;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +36,17 @@ public class GRNCPPong extends Response {
 			System.out.println("                      "+name);
 		}
 		
+	}
+	
+	@Override
+	public void send(Writer writer){
+		try {
+			// TODO finish this (not critical)
+			writer.write("");
+			writer.flush();
+		} catch (IOException e) {
+			System.out.println("IOException occured while trying to send package.");
+		}
 	}
 
 	

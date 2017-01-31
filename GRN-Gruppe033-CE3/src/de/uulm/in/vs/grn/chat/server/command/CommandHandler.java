@@ -8,12 +8,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 import de.uulm.in.vs.grn.chat.server.GRNCPServer;
 import de.uulm.in.vs.grn.chat.server.PubSubHandlerGroup;
 import de.uulm.in.vs.grn.chat.server.messages.events.Event;
+import de.uulm.in.vs.grn.chat.server.messages.events.GRNCPEvent;
 import de.uulm.in.vs.grn.chat.server.messages.events.GRNCPMessageEvent;
 import de.uulm.in.vs.grn.chat.server.messages.requests.GRNCPSend;
+import de.uulm.in.vs.grn.chat.server.messages.responses.GRNCPByebye;
+import de.uulm.in.vs.grn.chat.server.messages.responses.GRNCPError;
 import de.uulm.in.vs.grn.chat.server.messages.responses.GRNCPLoggedin;
 import de.uulm.in.vs.grn.chat.server.messages.responses.GRNCPSent;
 import de.uulm.in.vs.grn.chat.server.messages.responses.Response;
@@ -22,8 +26,8 @@ public class CommandHandler implements Runnable {
 
 	private Socket socket;
 	private PubSubHandlerGroup handlerGroup;
-	boolean active = false;
-	boolean loggedin = false;
+	private boolean active = false;
+	private boolean loggedin = false;
 	String username;
 	
 	
@@ -42,7 +46,7 @@ public class CommandHandler implements Runnable {
 					// 4. send response
 				
 		
-		try (BufferedReader commandReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		try (	BufferedReader commandReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				BufferedWriter commandWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))) {
 
 			while (active) {
@@ -69,29 +73,40 @@ public class CommandHandler implements Runnable {
 							date = (LocalDateTime.now()).format(GRNCPServer.DATIMINATOR);
 							switch (command) {
 							case "LOGIN":
-								//TODO: Peter regex schreiben
-								response = new GRNCPLoggedin(date);
+								if(username.length() < 3 || username.length() > 15 || !Pattern.matches("(abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789)*", username.subSequence(0, username.length()-1))){
+									response = new GRNCPError(date, "Your username sucks.");
+								}else{
+									response = new GRNCPLoggedin(date);
+									this.username = username;
+									Event loginEvent = new GRNCPEvent(date, username + " entered the server.");
+									loggedin = true;
+								}
+								
 								command = "";
 								break;
 							case "PING":
-								//nothing
+								response = new GRNCPError(date, "This request is not implemented yet.");
 								command = "";
 								break;
 							case "BYE":
-								//nothing
-								// TODO
+								response = new GRNCPByebye(date);
+								Event byeEvent = new GRNCPEvent(date, this.username + " left the server.");
+								loggedin = false;
+								active = false;
 								command = "";
 								break;
 							case "SEND":
-								// TODO Peter conventions
-								Event event = new GRNCPMessageEvent(date, username, text);
-								response = new GRNCPSent(date);
+								if(text.length() > 512 || text == "" || text.contains("\r") || text.contains("\n")){
+									response = new GRNCPError(date, "Your text sucks.");
+								}else{
+									Event sendEvent = new GRNCPMessageEvent(date, this.username, text);
+									response = new GRNCPSent(date);
+								}
 								
 								command = "";
 								break;
 							default:
-								//nothing
-								// TODO
+								response = new GRNCPError(date, "You entered an unknown request.");
 								command = "";
 								break;
 							}

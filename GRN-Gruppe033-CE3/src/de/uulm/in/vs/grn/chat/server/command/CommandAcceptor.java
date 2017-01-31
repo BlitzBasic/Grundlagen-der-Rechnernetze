@@ -9,10 +9,10 @@ import de.uulm.in.vs.grn.chat.server.PubSubHandlerGroup;
 
 public class CommandAcceptor implements Runnable {
 
-	boolean active = false;
+	private boolean active = false;
 
-	ServerSocket commandSocket;
-	PubSubHandlerGroup pubSubHandlerGroup;
+	private ServerSocket commandSocket;
+	private PubSubHandlerGroup pubSubHandlerGroup;
 
 	public CommandAcceptor(int port, PubSubHandlerGroup pubSubHandlerGroup) throws IOException {
 		super();
@@ -29,7 +29,6 @@ public class CommandAcceptor implements Runnable {
 			try {
 				pool.submit(new CommandHandler(commandSocket.accept(), pubSubHandlerGroup));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -9,15 +9,14 @@ import de.uulm.in.vs.grn.chat.server.pubsub.PubSubHandler;
 
 public class PubSubHandlerGroup implements Runnable {
 
-	LinkedList<PubSubHandler> handlers;
-	BlockingQueue<Event> events;
-	boolean active = false;
+	private LinkedList<PubSubHandler> handlers;
+	private BlockingQueue<Event> events;
+	private boolean active = false;
 	
 	public PubSubHandlerGroup() {
 		handlers = new LinkedList<>();
 		events = new LinkedBlockingQueue<Event>();
 		active = true;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class PubSubHandlerGroup implements Runnable {
 					}
 				}
 			} catch (InterruptedException e) {
-				// TODO: handle exception
+				
 			}
 		}
 

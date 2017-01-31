@@ -1,5 +1,8 @@
 package de.uulm.in.vs.grn.chat.server.messages.responses;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * represents an error response
  * @author Marius
@@ -25,5 +28,15 @@ public class GRNCPError extends Response {
 	public void display() {
 		System.out.println(date + " | " + reason);
 		
+	}
+	
+	@Override
+	public void send(Writer writer){
+		try {
+			writer.write("GRNCP /0.1 ERROR\r\nDate : " + date + "\r\nReason : " + reason + "\r\n\r\n");
+			writer.flush();
+		} catch (IOException e) {
+			System.out.println("IOException occured while trying to send package.");
+		}
 	}
 }

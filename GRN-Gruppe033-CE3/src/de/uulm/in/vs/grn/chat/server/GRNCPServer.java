@@ -2,7 +2,6 @@ package de.uulm.in.vs.grn.chat.server;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
