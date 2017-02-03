@@ -24,10 +24,11 @@ public class CommandAcceptor implements Runnable {
 	@Override
 	public void run() {
 		ExecutorService pool = Executors.newCachedThreadPool();
-
+		System.out.println("voll krass gestartet und so");
 		while (active) {
 			try {
 				pool.submit(new CommandHandler(commandSocket.accept(), pubSubHandlerGroup));
+				System.out.println("yo");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

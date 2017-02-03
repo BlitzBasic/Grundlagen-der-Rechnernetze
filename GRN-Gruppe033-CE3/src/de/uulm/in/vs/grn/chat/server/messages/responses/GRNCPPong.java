@@ -6,20 +6,23 @@ import java.util.ArrayList;
 
 /**
  * represents a pong response
+ * 
  * @author Marius
  *
  */
 public class GRNCPPong extends Response {
 
 	private final ArrayList<String> usernames;
-	
+
 	public GRNCPPong(String date, ArrayList<String> usernames) {
 		super(date);
 		this.usernames = usernames;
 	}
 
 	/**
-	 * takes all usernames from the given response and puts them into an ArrayList
+	 * takes all usernames from the given response and puts them into an
+	 * ArrayList
+	 * 
 	 * @return
 	 */
 	public ArrayList<String> getUsernames() {
@@ -32,23 +35,17 @@ public class GRNCPPong extends Response {
 	@Override
 	public void display() {
 		System.out.println(date + " | Currently logged in users:");
-		for(String name : usernames){
-			System.out.println("                      "+name);
+		for (String name : usernames) {
+			System.out.println("                      " + name);
 		}
-		
-	}
-	
-	@Override
-	public void send(Writer writer){
-		try {
-			// TODO finish this (not critical)
-			writer.write("");
-			writer.flush();
-		} catch (IOException e) {
-			System.out.println("IOException occured while trying to send package.");
-		}
+
 	}
 
-	
-	
+	@Override
+	public void send(Writer writer) throws IOException {
+		// TODO finish this (not critical)
+		writer.write("");
+		writer.flush();
+	}
+
 }

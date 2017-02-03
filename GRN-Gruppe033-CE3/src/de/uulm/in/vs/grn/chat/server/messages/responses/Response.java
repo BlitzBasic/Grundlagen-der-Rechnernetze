@@ -26,10 +26,5 @@ public abstract class Response implements GRNCPMessage, Displayable {
 		return date;
 	}
 	
-	@Override
-	public void send(Writer writer){
-		
-	}
-	
 	
 }

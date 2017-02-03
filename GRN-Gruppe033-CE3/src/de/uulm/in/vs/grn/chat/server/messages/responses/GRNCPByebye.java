@@ -5,6 +5,7 @@ import java.io.Writer;
 
 /**
  * represents a byebye response
+ * 
  * @author Marius
  *
  */
@@ -23,12 +24,9 @@ public class GRNCPByebye extends Response {
 	}
 
 	@Override
-	public void send(Writer writer){
-		try {
-			writer.write("GRNCP /0.1 BYEBYE\r\nDate : " + date + "\r\n\r\n");
-			writer.flush();
-		} catch (IOException e) {
-			System.out.println("IOException occured while trying to send package.");
-		}
+	public void send(Writer writer) throws IOException {
+
+		writer.write("GRNCP /0.1 BYEBYE\r\nDate : " + date + "\r\n\r\n");
+		writer.flush();
 	}
 }

@@ -23,13 +23,9 @@ public class GRNCPSent extends Response {
 	}
 	
 	@Override
-	public void send(Writer writer){
-		try {
+	public void send(Writer writer) throws IOException{
 			writer.write("GRNCP /0.1 SENT\r\nDate : " + date + "\r\n\r\n");
 			writer.flush();
-		} catch (IOException e) {
-			System.out.println("IOException occured while trying to send package.");
-		}
 	}
 
 }

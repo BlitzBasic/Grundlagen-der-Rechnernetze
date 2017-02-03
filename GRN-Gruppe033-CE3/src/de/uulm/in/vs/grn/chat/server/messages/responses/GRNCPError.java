@@ -5,19 +5,19 @@ import java.io.Writer;
 
 /**
  * represents an error response
+ * 
  * @author Marius
  *
  */
 public class GRNCPError extends Response {
 	private final String reason;
-	
-	public GRNCPError(String date, String reason){
+
+	public GRNCPError(String date, String reason) {
 		super(date);
 		this.reason = reason;
 	}
-	
 
-	public String getReason(){
+	public String getReason() {
 		return reason;
 	}
 
@@ -27,16 +27,12 @@ public class GRNCPError extends Response {
 	@Override
 	public void display() {
 		System.out.println(date + " | " + reason);
-		
+
 	}
-	
+
 	@Override
-	public void send(Writer writer){
-		try {
-			writer.write("GRNCP /0.1 ERROR\r\nDate : " + date + "\r\nReason : " + reason + "\r\n\r\n");
-			writer.flush();
-		} catch (IOException e) {
-			System.out.println("IOException occured while trying to send package.");
-		}
+	public void send(Writer writer) throws IOException {
+		writer.write("GRNCP /0.1 ERROR\r\nDate : " + date + "\r\nReason : " + reason + "\r\n\r\n");
+		writer.flush();
 	}
 }
