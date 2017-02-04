@@ -72,7 +72,7 @@ public class CommandHandler implements Runnable {
 								// System.out.println("login");
 								if (loggedin) {
 									response = new GRNCPError(date, "You are already logged in as " + username);
-									// TODO: check limitations
+									// TODO: check limitations (not critical)
 								} else {
 									response = new GRNCPLoggedin(date);
 									// System.out.println("loggedin und so");
@@ -95,10 +95,7 @@ public class CommandHandler implements Runnable {
 							case "BYE":
 								if (loggedin) {
 									response = new GRNCPByebye(date);
-									Event byeEvent = new GRNCPEvent(date, this.username + " left the server.");
-									handlerGroup.addEvent(byeEvent);
-									loggedin = false;
-									active = false;
+									logout(date);
 
 								} else {
 									response = new GRNCPError(date, "You are not logged in.");
@@ -108,7 +105,7 @@ public class CommandHandler implements Runnable {
 								break;
 							case "SEND":
 								if (loggedin) {
-									// TODO: check limitations
+									// TODO: check limitations (not critical)
 									Event sendEvent = new GRNCPMessageEvent(date, this.username, text);
 									handlerGroup.addEvent(sendEvent);
 									response = new GRNCPSent(date);
@@ -134,10 +131,8 @@ public class CommandHandler implements Runnable {
 							} else if (field[0].equals("Text")) {
 								text = field[1].trim();
 							}
-						} else {
-							// System.out.println("Unknown line: \"" + request +
-							// "\"");
 						}
+						
 						if (response != null) {
 							response.send(commandWriter);
 							// System.out.println("response sent");
@@ -152,20 +147,30 @@ public class CommandHandler implements Runnable {
 				} catch (NullPointerException e) {
 					// do nothing
 				} catch (IOException e) {
-					active = false;
-					System.err.println("Verbindung voll tot");
+					logout((LocalDateTime.now()).format(GRNCPServer.DATIMINATOR));
 				}
 
 			}
 
 		} catch (Exception e) {
 			System.err.println("DOOM");
+			logout((LocalDateTime.now()).format(GRNCPServer.DATIMINATOR));
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 	}
 
+	/**
+	 * @param date
+	 */
+	private void logout(String date) {
+		Event byeEvent = new GRNCPEvent(date, this.username + " left the server.");
+		handlerGroup.addEvent(byeEvent);
+		loggedin = false;
+		active = false;
+	}
+
+	
 	public void disable() {
 		active = false;
 	}

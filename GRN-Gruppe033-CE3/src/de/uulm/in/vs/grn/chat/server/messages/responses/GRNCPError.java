@@ -32,7 +32,7 @@ public class GRNCPError extends Response {
 
 	@Override
 	public void send(Writer writer) throws IOException {
-		writer.write("GRNCP /0.1 ERROR\r\nDate : " + date + "\r\nReason : " + reason + "\r\n\r\n");
+		writer.write("GRNCP/0.1 ERROR\r\nDate: " + date + "\r\nReason: " + reason + "\r\n\r\n");
 		writer.flush();
 	}
 }

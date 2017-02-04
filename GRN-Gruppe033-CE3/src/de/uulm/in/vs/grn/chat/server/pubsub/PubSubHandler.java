@@ -30,9 +30,9 @@ public class PubSubHandler implements Runnable {
 					event.send(writer);
 
 				} catch (InterruptedException e) {
-
+					//nothing
 				} catch (IOException e) {
-					System.err.println("Message couldn't be sent");
+					disable();
 				}
 			}
 		} catch (Exception e) {
