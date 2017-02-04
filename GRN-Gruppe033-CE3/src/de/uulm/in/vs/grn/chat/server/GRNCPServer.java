@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 
 import de.uulm.in.vs.grn.chat.server.command.CommandAcceptor;
 import de.uulm.in.vs.grn.chat.server.pubsub.PubSubAcceptor;
+import de.uulm.in.vs.grn.chat.server.pubsub.PubSubHandlerGroup;
 
 /**
  * main class to start the GRNCP chat server

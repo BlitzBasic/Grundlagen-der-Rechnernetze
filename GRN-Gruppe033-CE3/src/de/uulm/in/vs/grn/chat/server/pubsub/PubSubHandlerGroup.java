@@ -1,11 +1,10 @@
-package de.uulm.in.vs.grn.chat.server;
+package de.uulm.in.vs.grn.chat.server.pubsub;
 
 import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.uulm.in.vs.grn.chat.server.messages.events.Event;
-import de.uulm.in.vs.grn.chat.server.pubsub.PubSubHandler;
 
 public class PubSubHandlerGroup implements Runnable {
 

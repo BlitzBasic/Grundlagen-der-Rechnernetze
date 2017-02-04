@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.uulm.in.vs.grn.chat.server.PubSubHandlerGroup;
+import de.uulm.in.vs.grn.chat.server.pubsub.PubSubHandlerGroup;
 
 public class CommandAcceptor implements Runnable {
 
@@ -16,9 +16,9 @@ public class CommandAcceptor implements Runnable {
 
 	public CommandAcceptor(int port, PubSubHandlerGroup pubSubHandlerGroup) throws IOException {
 		super();
-		active = true;
 		commandSocket = new ServerSocket(port);
 		this.pubSubHandlerGroup = pubSubHandlerGroup;
+		active = true;
 	}
 
 	@Override

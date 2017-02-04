@@ -5,8 +5,6 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.uulm.in.vs.grn.chat.server.PubSubHandlerGroup;
-
 public class PubSubAcceptor implements Runnable {
 
 	private ServerSocket pubSubSocket;

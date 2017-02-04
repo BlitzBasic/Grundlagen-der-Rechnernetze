@@ -1,7 +1,5 @@
 package de.uulm.in.vs.grn.chat.server.messages.responses;
 
-import java.io.Writer;
-
 import de.uulm.in.vs.grn.chat.server.messages.Displayable;
 import de.uulm.in.vs.grn.chat.server.messages.GRNCPMessage;
 
