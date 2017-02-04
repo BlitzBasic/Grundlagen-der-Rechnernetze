@@ -138,7 +138,7 @@ public class CommandHandler implements Runnable {
 							// System.out.println("response sent");
 							// send response
 						}
-					} while (request != null);
+					} while (request != null && active);
 
 				} catch (ArrayIndexOutOfBoundsException e) {
 					// do nothing
