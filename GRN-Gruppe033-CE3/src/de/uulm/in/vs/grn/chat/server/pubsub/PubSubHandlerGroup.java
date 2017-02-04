@@ -11,7 +11,7 @@ public class PubSubHandlerGroup implements Runnable {
 	private LinkedList<PubSubHandler> handlers;
 	private BlockingQueue<Event> events;
 	private boolean active = false;
-	
+
 	public PubSubHandlerGroup() {
 		handlers = new LinkedList<>();
 		events = new LinkedBlockingQueue<Event>();
@@ -20,30 +20,38 @@ public class PubSubHandlerGroup implements Runnable {
 
 	@Override
 	public void run() {
-		
-		while(active){
+
+		while (active) {
 			try {
 				Event event = events.take();
-				for(PubSubHandler handler : handlers){
-					if(handler.isActive()){
+				for (PubSubHandler handler : handlers) {
+					if (handler.isActive()) {
 						handler.addEvent(event);
-					}else{
+					} else {
 						handlers.remove(handler);
 					}
 				}
 			} catch (InterruptedException e) {
-				
+				// nothing
 			}
 		}
 
 	}
-	
-	public void addHandler(PubSubHandler handler){
+
+	public void addHandler(PubSubHandler handler) {
 		handlers.add(handler);
 	}
-	
-	public void addEvent(Event event){
+
+	public void addEvent(Event event) {
 		events.add(event);
 	}
 
+	public void disable() {
+		active = false;
+		for (PubSubHandler handler : handlers) {
+			if (handler.isActive()) {
+				handler.disable();
+			}
+		}
+	}
 }

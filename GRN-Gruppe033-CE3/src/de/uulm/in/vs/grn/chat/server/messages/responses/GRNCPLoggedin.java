@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * represents a loggedin response
+ * represents a loggedIn response
  * @author Marius
  *
  */

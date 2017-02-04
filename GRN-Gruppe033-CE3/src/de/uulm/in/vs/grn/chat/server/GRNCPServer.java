@@ -42,7 +42,7 @@ public class GRNCPServer {
 		pool.submit(pubSubHandlerGroup);
 		pool.submit(pubSubAcceptor);
 		pool.submit(commandAcceptor);
-		
+
 	}
 
 }

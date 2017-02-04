@@ -14,7 +14,7 @@ public class PubSubHandler implements Runnable {
 	private Socket socket;
 	private boolean active = false;
 	private BlockingQueue<Event> events;
-	
+
 	public PubSubHandler(Socket socket) {
 		this.socket = socket;
 		events = new LinkedBlockingQueue<Event>();
@@ -23,31 +23,33 @@ public class PubSubHandler implements Runnable {
 
 	@Override
 	public void run() {
-		try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))){
-		while(active){
-			try {
-				Event event = events.take();
-				event.send(writer);
-				
-			} catch (InterruptedException e) {
-				
-			} catch (IOException e){
-				System.err.println("Message couldn't be sent");
+		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))) {
+			while (active) {
+				try {
+					Event event = events.take();
+					event.send(writer);
+
+				} catch (InterruptedException e) {
+
+				} catch (IOException e) {
+					System.err.println("Message couldn't be sent");
+				}
 			}
-		}
-		}catch (Exception e) {
-			
+		} catch (Exception e) {
+			disable();
 		}
 	}
 
 	public boolean isActive() {
 		return active;
 	}
-	
-	public void addEvent(Event event){
+
+	public void addEvent(Event event) {
 		events.add(event);
 	}
-	
-	
+
+	public void disable() {
+		active = false;
+	}
 
 }

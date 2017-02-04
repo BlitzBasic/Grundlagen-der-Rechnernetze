@@ -13,17 +13,19 @@ public class CommandAcceptor implements Runnable {
 
 	private ServerSocket commandSocket;
 	private PubSubHandlerGroup pubSubHandlerGroup;
+	ExecutorService pool;
 
 	public CommandAcceptor(int port, PubSubHandlerGroup pubSubHandlerGroup) throws IOException {
 		super();
 		commandSocket = new ServerSocket(port);
 		this.pubSubHandlerGroup = pubSubHandlerGroup;
+		pool = Executors.newCachedThreadPool();
 		active = true;
 	}
 
 	@Override
 	public void run() {
-		ExecutorService pool = Executors.newCachedThreadPool();
+
 		System.out.println("voll krass gestartet und so");
 		while (active) {
 			try {
@@ -33,6 +35,11 @@ public class CommandAcceptor implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void disable() {
+		active = false;
+		pool.shutdown();
 	}
 
 }
