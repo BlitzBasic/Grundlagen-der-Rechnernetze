@@ -26,7 +26,7 @@ public class PubSubAcceptor implements Runnable {
 	}
 	
 	/**
-	 * adds a PubSubHandler to thePubSubHandlerGroup Queue and to the executor pool
+	 * adds a PubSubHandler for each connection to the PubSubHandlerGroup Queue and to the executor pool
 	 */
 	@Override
 	public void run() {

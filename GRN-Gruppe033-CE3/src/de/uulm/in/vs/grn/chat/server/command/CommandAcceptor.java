@@ -29,7 +29,7 @@ public class CommandAcceptor implements Runnable {
 	}
 
 	/**
-	 * adds a new command handler to the pool that can communicate with the clients
+	 * adds a new command handler for each connection to the pool that can communicate with the clients
 	 */
 	@Override
 	public void run() {

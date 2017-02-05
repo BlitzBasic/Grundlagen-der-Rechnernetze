@@ -164,8 +164,8 @@ public class CommandHandler implements Runnable {
 	}
 
 	/**
-	 * 
-	 * @param date
+	 * logs the current user out and sends a byeEvent
+	 * @param date time stamp of the byeEvent
 	 */
 	private void logout(String date) {
 		Event byeEvent = new GRNCPEvent(date, this.username + " left the server.");
