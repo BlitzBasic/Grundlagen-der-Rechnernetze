@@ -52,6 +52,11 @@ public class GRNCPMessageEvent extends Event {
 		return text;
 	}
 
+	/**
+	 * writes a Message 
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 			writer.write("GRNCP/0.1 MESSAGE\r\nDate: " + date + "\r\nUsername: " + username + "\r\nText: " + text + "\r\n\r\n");

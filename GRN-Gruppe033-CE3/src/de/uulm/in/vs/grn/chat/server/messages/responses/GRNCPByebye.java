@@ -23,6 +23,11 @@ public class GRNCPByebye extends Response {
 
 	}
 
+	/**
+	 * writes a ByeBye Response
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 

@@ -6,6 +6,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import de.uulm.in.vs.grn.chat.server.messages.events.Event;
 
+/**
+ *handles all handlers in a group and teells them to print their Events themselves.
+ *also checks if the person is still connected
+ * @author Andreas
+ *
+ */
 public class PubSubHandlerGroup implements Runnable {
 
 	private LinkedList<PubSubHandler> handlers;

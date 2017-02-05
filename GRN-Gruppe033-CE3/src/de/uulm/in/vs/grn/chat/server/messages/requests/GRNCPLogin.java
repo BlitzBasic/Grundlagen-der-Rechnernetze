@@ -23,6 +23,9 @@ public class GRNCPLogin extends Request {
 		this.username = username;
 	}
 
+	/**
+	 * writes a Login Request
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write("LOGIN " + GRNCPServer.PROTOCOL_VERSION + "\r\nUsername: " + username + "\r\n\r\n");

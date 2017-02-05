@@ -19,6 +19,11 @@ import de.uulm.in.vs.grn.chat.server.messages.responses.GRNCPSent;
 import de.uulm.in.vs.grn.chat.server.messages.responses.Response;
 import de.uulm.in.vs.grn.chat.server.pubsub.PubSubHandlerGroup;
 
+/**
+ * Handles whatever commands it gets
+ * @author Marius
+ *
+ */
 public class CommandHandler implements Runnable {
 
 	private Socket socket;
@@ -33,6 +38,9 @@ public class CommandHandler implements Runnable {
 		active = true;
 	}
 
+	/**
+	 * forwards command to which ever class should handle the command
+	 */
 	@Override
 	public void run() {
 		// 1. check login state
@@ -60,22 +68,17 @@ public class CommandHandler implements Runnable {
 						// 3. forward to handlerGroup
 						// 4. send response
 
-						// System.out.println("warte auf request");
 						Response response = null;
 						request = commandReader.readLine();
-						// System.out.println(request);
 						if (request.equals("")) {
-							// System.out.println("test");
 							date = (LocalDateTime.now()).format(GRNCPServer.DATIMINATOR);
 							switch (command) {
 							case "LOGIN":
-								// System.out.println("login");
 								if (loggedin) {
 									response = new GRNCPError(date, "You are already logged in as " + username);
 									// TODO: check limitations (not critical)
 								} else {
 									response = new GRNCPLoggedin(date);
-									// System.out.println("loggedin und so");
 									this.username = username;
 									Event loginEvent = new GRNCPEvent(date, username + " entered the server.");
 									handlerGroup.addEvent(loginEvent);
@@ -153,7 +156,7 @@ public class CommandHandler implements Runnable {
 			}
 
 		} catch (Exception e) {
-			System.err.println("DOOM");
+			System.err.println("FATAL ERROR: If you got this message something went majorly wrong");
 			logout((LocalDateTime.now()).format(GRNCPServer.DATIMINATOR));
 			e.printStackTrace();
 		}
@@ -161,6 +164,7 @@ public class CommandHandler implements Runnable {
 	}
 
 	/**
+	 * 
 	 * @param date
 	 */
 	private void logout(String date) {

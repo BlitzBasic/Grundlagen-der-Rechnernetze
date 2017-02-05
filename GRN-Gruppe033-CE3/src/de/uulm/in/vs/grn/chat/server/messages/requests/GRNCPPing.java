@@ -28,6 +28,9 @@ public class GRNCPPing extends Request {
 		this.userListRequested = userListRequested;
 	}
 
+	/**
+	 * writes a Ping Request
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write(pingMessage);

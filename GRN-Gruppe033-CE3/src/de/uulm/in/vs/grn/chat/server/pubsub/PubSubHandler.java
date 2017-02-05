@@ -9,6 +9,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import de.uulm.in.vs.grn.chat.server.messages.events.Event;
 
+/**
+ * writes events for the user the Handler is handling
+ * @author Andreas
+ *
+ */
 public class PubSubHandler implements Runnable {
 
 	private Socket socket;

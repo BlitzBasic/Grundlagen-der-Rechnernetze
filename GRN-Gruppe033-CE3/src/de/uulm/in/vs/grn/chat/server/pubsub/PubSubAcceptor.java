@@ -5,6 +5,11 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Accepts a PubSubConnection
+ * @author Andreas
+ *
+ */
 public class PubSubAcceptor implements Runnable {
 
 	private ServerSocket pubSubSocket;
@@ -19,7 +24,10 @@ public class PubSubAcceptor implements Runnable {
 		pool = Executors.newCachedThreadPool();
 		active = true;
 	}
-
+	
+	/**
+	 * adds a PubSubHandler to thePubSubHandlerGroup Queue and to the executor pool
+	 */
 	@Override
 	public void run() {
 

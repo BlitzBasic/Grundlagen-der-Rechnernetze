@@ -41,6 +41,11 @@ public class GRNCPPong extends Response {
 
 	}
 
+	/**
+	 * writes a Pong Response
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 		// TODO finish this (not critical)

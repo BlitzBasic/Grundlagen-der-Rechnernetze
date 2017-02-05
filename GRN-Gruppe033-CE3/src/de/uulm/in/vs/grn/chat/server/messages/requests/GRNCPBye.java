@@ -21,7 +21,9 @@ public class GRNCPBye extends Request {
 		super();
 	}
 
-	
+	/**
+	 * writes a Bye Request
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write(byeMessage);

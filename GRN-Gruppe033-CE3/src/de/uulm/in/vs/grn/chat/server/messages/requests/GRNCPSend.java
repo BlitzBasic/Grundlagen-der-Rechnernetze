@@ -25,6 +25,9 @@ public class GRNCPSend extends Request {
 	
 	
 
+	/**
+	 * writes a send request
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 			writer.write("SEND " + GRNCPServer.PROTOCOL_VERSION + "\r\nText: " + text + "\r\n\r\n");

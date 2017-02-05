@@ -41,6 +41,11 @@ public class GRNCPEvent extends Event {
 	}
 
 
+	/**
+	 * writes an Event
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 		

@@ -22,6 +22,11 @@ public class GRNCPExpired extends Response {
 		System.out.println(date + " | Your connection has expired, please re-login.");
 	}
 
+	/**
+	 * writes a Expired Response
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException {
 		writer.write("GRNCP/0.1 EXPIRED\r\nDate: " + date + "\r\n\r\n");

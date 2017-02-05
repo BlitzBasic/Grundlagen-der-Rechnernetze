@@ -7,6 +7,11 @@ import java.util.concurrent.Executors;
 
 import de.uulm.in.vs.grn.chat.server.pubsub.PubSubHandlerGroup;
 
+/**
+ * Accepts command connections
+ * @author Andreas
+ *
+ */
 public class CommandAcceptor implements Runnable {
 
 	private boolean active = false;
@@ -23,6 +28,9 @@ public class CommandAcceptor implements Runnable {
 		active = true;
 	}
 
+	/**
+	 * adds a new command handler to the pool that can communicate with the clients
+	 */
 	@Override
 	public void run() {
 

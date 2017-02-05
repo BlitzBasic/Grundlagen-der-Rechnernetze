@@ -22,6 +22,11 @@ public class GRNCPSent extends Response {
 		
 	}
 	
+	/**
+	 * writes a Sent Response
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException{
 			writer.write("GRNCP/0.1 SENT\r\nDate: " + date + "\r\n\r\n");

@@ -22,6 +22,11 @@ public class GRNCPLoggedin extends Response {
 		
 	}
 	
+	/**
+	 * writes a LoggedIn Response
+	 * @param writer
+	 * @throws IOException
+	 */
 	@Override
 	public void send(Writer writer) throws IOException{
 			writer.write("GRNCP/0.1 LOGGEDIN\r\nDate: " + date + "\r\n\r\n");
